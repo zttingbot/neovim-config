@@ -3,6 +3,7 @@
 ---Shows mode, git status, diagnostics, file info and cursor position in one
 ---statusline across the bottom, themed from the active colorscheme.
 ---@see https://github.com/nvim-lualine/lualine.nvim
+---@see :help lualine.txt
 
 ---@type LazySpec
 return {

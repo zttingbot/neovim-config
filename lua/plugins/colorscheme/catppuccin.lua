@@ -4,7 +4,6 @@
 ---frappe, macchiato, mocha. Mocha is the darkest. The theme ships highlight
 ---integrations for common plugins (gitsigns, telescope, treesitter, …), turned
 ---on by default, so plugins added later match the theme without extra setup.
----
 ---@see https://github.com/catppuccin/nvim
 ---@see :help catppuccin
 

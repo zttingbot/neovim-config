@@ -30,7 +30,7 @@ return {
     -- window title instead of in the prompt.
     "default-title",
     winopts = {
-      -- Single border: thin lines with sharp corners.
+      -- Single border, like vim.o.winborder (fzf-lua doesn't read that option).
       border = "single",
       -- The preview has its own border setting (default "rounded"), so it has
       -- to be set separately to match the picker.

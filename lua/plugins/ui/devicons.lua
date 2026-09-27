@@ -1,7 +1,7 @@
 ---nvim-web-devicons: file-type icons.
 ---
----Shared by any plugin that shows file icons (statusline now; file explorer
----and pickers later). Needs a Nerd Font in the terminal.
+---Shared by every plugin that shows file icons (lualine, fzf-lua, oil).
+---Needs a Nerd Font in the terminal.
 ---@see https://github.com/nvim-tree/nvim-web-devicons
 
 ---@type LazySpec

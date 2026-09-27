@@ -1,0 +1,52 @@
+# StyLua configuration.
+#
+# Loaded by stylua, which searches upward from each Lua file it formats for
+# this file. Top-level keys come before the [sort_requires] table because TOML
+# assigns every key below a table header to that table.
+# Full reference: https://github.com/JohnnyMorganz/StyLua#options
+#
+# Kept in sync with lua/config/options.lua
+#   - indent_width = 2 matches shiftwidth = 2, so code typed in Neovim is
+#     already indented the way stylua writes it.
+
+# =============================================================================
+# Syntax and layout
+# =============================================================================
+
+# Neovim runs LuaJIT, so Lua 5.2+ syntax it cannot run fails to parse here
+# instead of being formatted as if it were valid.
+syntax = "LuaJIT"
+
+# Code wraps at 120 columns; comments are still wrapped by hand at 79.
+column_width = 120 # columns
+
+# Unix endings keep diffs clean if a file is ever edited on Windows.
+line_endings = "Unix"
+
+# Indentation: see "Kept in sync" above.
+indent_type = "Spaces"
+indent_width = 2 # spaces per level
+
+# =============================================================================
+# Code style
+# =============================================================================
+
+# Matches the lazy.nvim and LazyVim docs, so spec snippets copied from them
+# need no reformatting:
+#   quote_style                 "..." unless the string holds a double quote
+#   call_parentheses            require("x"), never require "x"
+#   collapse_simple_statement   keeps `if x then return end` on its own lines
+#   space_after_function_names  f(x), never f (x)
+quote_style = "AutoPreferDouble"
+call_parentheses = "Always"
+collapse_simple_statement = "Never"
+space_after_function_names = "Never"
+
+# =============================================================================
+# Require sorting
+# =============================================================================
+
+# Disabled, as by default: a module can rely on state another one sets up when
+# it loads, so the order of `local x = require(...)` lines is left as written.
+[sort_requires]
+enabled = false

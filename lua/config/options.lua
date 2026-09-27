@@ -96,6 +96,12 @@ opt.splitright = true
 -- `:split` opens the new window below (the default is above).
 opt.splitbelow = true
 
+-- Default border for floating windows: LSP hover, diagnostics, and plugin
+-- popups that leave their border unset (e.g. oil's confirmation and g? help).
+-- "single" is thin lines with sharp corners. fzf-lua, lazy.nvim and which-key
+-- don't use this option, so their specs set the same border themselves.
+opt.winborder = "single"
+
 -- Performance -----------------------------------------------------------------
 
 -- Milliseconds of idle time before Neovim writes the swap file and fires the

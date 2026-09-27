@@ -1,7 +1,7 @@
 ---Bootstrap and configure lazy.nvim.
 ---
 ---On first run, clones lazy.nvim (stable branch) into `stdpath("data")/lazy/lazy.nvim`
----and exits on failure. Then imports every spec returned from lua/plugins/*.lua.
+---and exits on failure. Then imports each category folder under lua/plugins/ (one file per plugin).
 ---@see :help lazy.nvim-configuration
 
 -- Bootstrap lazy.nvim
@@ -23,9 +23,13 @@ vim.opt.rtp:prepend(lazypath)
 
 ---@type LazyConfig
 local opts = {
-  spec = { { import = "plugins" } },
+  -- One import per category: lazy.nvim does not look inside subfolders of
+  -- lua/plugins/, so each folder is listed here.
+  spec = {
+    { import = "plugins.colorscheme" },
+  },
   defaults = { lazy = false, version = false }, -- version = false: track latest commit, not tags
-  install = { colorscheme = { "habamax" } }, -- built-in fallback during installs
+  install = { colorscheme = { "catppuccin", "habamax" } }, -- used while installing; habamax is the built-in fallback
   checker = { enabled = true, notify = false }, -- check for updates in the background, silently
   change_detection = { notify = false },
   ui = { border = "rounded" },

@@ -27,6 +27,7 @@ local opts = {
   -- lua/plugins/, so each folder is listed here.
   spec = {
     { import = "plugins.colorscheme" },
+    { import = "plugins.ui" },
   },
   defaults = { lazy = false, version = false }, -- version = false: track latest commit, not tags
   install = { colorscheme = { "catppuccin", "habamax" } }, -- used while installing; habamax is the built-in fallback

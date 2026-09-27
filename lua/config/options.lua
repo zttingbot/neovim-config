@@ -34,6 +34,10 @@ opt.relativenumber = true
 -- it appears and disappears as signs come and go, shifting the text sideways.
 opt.signcolumn = "yes"
 
+-- Don't show "-- INSERT --" in the command line; the statusline already shows
+-- the current mode.
+opt.showmode = false
+
 -- Enable 24-bit RGB colors. Most modern colorschemes need this to look right.
 opt.termguicolors = true
 

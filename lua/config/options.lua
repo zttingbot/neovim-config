@@ -79,6 +79,21 @@ opt.smartindent = true
 -- reopening a file. Stored under `stdpath("state")/undo`.
 opt.undofile = true
 
+-- Folding ---------------------------------------------------------------------
+
+-- Folds come from treesitter where a parser exists (set per buffer in
+-- plugins/treesitter/nvim-treesitter.lua). These options only control how
+-- they start and look.
+
+-- Open all folds by default; close them yourself with `zc` / `zM`. 99 is just
+-- "deeper than any real nesting".
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+
+-- Show a closed fold as its first line, with syntax highlighting, instead of
+-- the default "+-- 12 lines: ..." text.
+opt.foldtext = ""
+
 -- Search ----------------------------------------------------------------------
 
 -- Searches ignore case: `/foo` also matches `Foo` and `FOO`.

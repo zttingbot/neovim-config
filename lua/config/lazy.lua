@@ -30,6 +30,7 @@ local opts = {
     { import = "plugins.ui" },
     { import = "plugins.editor" },
     { import = "plugins.treesitter" },
+    { import = "plugins.lsp" },
   },
   defaults = { lazy = false, version = false }, -- version = false: track latest commit, not tags
   install = { colorscheme = { "catppuccin", "habamax" } }, -- used while installing; habamax is the built-in fallback

@@ -24,6 +24,7 @@
 local SERVERS = {
   -- Lua
   "lua_ls",
+  "stylua", -- formatter used by conform; also runs as a formatting-only server
 
   -- Shell and config formats
   "bashls",

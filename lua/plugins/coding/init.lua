@@ -1,4 +1,4 @@
----Coding plugins: completion.
+---Coding plugins: completion, formatting.
 ---
 ---Each plugin in this folder has its own file returning a single spec;
 ---lazy.nvim loads them all through the "plugins.coding" import in config/lazy.lua.

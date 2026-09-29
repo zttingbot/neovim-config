@@ -1,0 +1,43 @@
+---conform.nvim: run code formatters on the current buffer.
+---
+---Calls an external formatter (stylua, prettier, ...) for the buffer's
+---filetype and applies the result as a minimal diff, so marks, folds and the
+---cursor stay put. Filetypes without a formatter listed here fall back to
+---their language server's formatting. Formatting is manual: nothing runs on
+---save. :ConformInfo shows which formatters apply to the current buffer and
+---whether they are installed.
+---@see https://github.com/stevearc/conform.nvim
+---@see :help conform
+
+---@type LazySpec
+return {
+  "stevearc/conform.nvim",
+  -- Load on the first :ConformInfo or keymap below, not at startup.
+  cmd = "ConformInfo",
+  keys = {
+    {
+      "<leader>cf",
+      function()
+        require("conform").format({ async = true })
+      end,
+      -- In visual mode only the selected lines are formatted.
+      mode = { "n", "x" },
+      desc = "Format buffer or selection",
+    },
+  },
+  opts = {
+    -- Formatters are binaries conform runs, not plugins, so each one must be
+    -- installed through mason. stylua is listed in SERVERS in
+    -- plugins/lsp/lspconfig.lua; formatters that aren't language servers
+    -- (e.g. prettier) are installed from :Mason.
+    formatters_by_ft = {
+      -- stylua reads stylua.toml at the config root.
+      lua = { "stylua" },
+    },
+    default_format_opts = {
+      -- No formatter listed for the filetype: ask the language server
+      -- instead (taplo, jsonls, yamlls, html, cssls, vtsls can all format).
+      lsp_format = "fallback",
+    },
+  },
+}

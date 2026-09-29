@@ -29,6 +29,7 @@ local opts = {
     { import = "plugins.colorscheme" },
     { import = "plugins.ui" },
     { import = "plugins.editor" },
+    { import = "plugins.coding" },
     { import = "plugins.treesitter" },
     { import = "plugins.lsp" },
   },

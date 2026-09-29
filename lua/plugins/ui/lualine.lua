@@ -1,7 +1,8 @@
 ---lualine.nvim: statusline.
 ---
----Shows mode, git status, diagnostics, file info and cursor position in one
----statusline across the bottom, themed from the active colorscheme.
+---Shows mode, git status, diagnostics, LSP status, file info and cursor
+---position in one statusline across the bottom, themed from the active
+---colorscheme.
 ---@see https://github.com/nvim-lualine/lualine.nvim
 ---@see :help lualine.txt
 
@@ -23,6 +24,11 @@ return {
       -- section, just colored blocks.
       section_separators = "",
       component_separators = "",
+    },
+    sections = {
+      -- lualine's default lualine_x, with the attached LSP servers first:
+      -- a spinner while a server reports work (e.g. indexing), ✓ when done.
+      lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" },
     },
   },
 }

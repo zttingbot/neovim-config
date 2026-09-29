@@ -32,10 +32,13 @@ return {
     formatters_by_ft = {
       -- stylua reads stylua.toml at the config root.
       lua = { "stylua" },
+      -- ruff reads ruff.toml / pyproject.toml ([tool.ruff]) from the project.
+      python = { "ruff_format" },
     },
     default_format_opts = {
       -- No formatter listed for the filetype: ask the language server
-      -- instead (taplo, jsonls, yamlls, html, cssls, vtsls can all format).
+      -- instead. Not every server can format; :ConformInfo shows what
+      -- applies to the current buffer.
       lsp_format = "fallback",
     },
   },

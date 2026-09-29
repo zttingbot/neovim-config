@@ -15,7 +15,7 @@
 ---Servers use lspconfig names (`lua_ls`, not `lua-language-server`; see
 ---:help lspconfig-all), translated through mason-lspconfig. Other tools use
 ---mason package names, as :Mason shows them. A formatter that also has an
----lspconfig config (stylua) must be in automatic_enable's exclude in
+---lspconfig config (e.g. stylua) must be in automatic_enable's exclude in
 ---plugins/lsp/lspconfig.lua, or it is started as a server too.
 local PACKAGES = {
   -- Language servers ----------------------------------------------------------
@@ -40,6 +40,7 @@ local PACKAGES = {
   -- Formatters (run by conform, plugins/coding/conform.lua) -------------------
 
   "stylua", -- Lua
+  "ruff", -- Python
 }
 
 ---@type LazySpec

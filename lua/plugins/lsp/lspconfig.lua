@@ -22,9 +22,10 @@ return {
   lazy = false,
   opts = {
     -- vim.lsp.enable() every mason-installed server, including ones added
-    -- from :Mason. stylua has an lspconfig config, so it would be enabled as
-    -- a server; it's excluded because conform already runs it, and as a
-    -- server it would also set 'formatexpr' in Lua buffers.
-    automatic_enable = { exclude = { "stylua" } },
+    -- from :Mason. Formatters that also ship an lspconfig config would be
+    -- started as servers too, so they're listed in exclude: conform
+    -- already runs them, and as servers they'd set 'formatexpr' or
+    -- duplicate the buffer's real language server.
+    automatic_enable = { exclude = { "stylua", "ruff" } },
   },
 }

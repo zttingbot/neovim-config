@@ -113,7 +113,7 @@ opt.splitbelow = true
 
 -- Default border for floating windows: LSP hover, diagnostics, and plugin
 -- popups that leave their border unset (e.g. oil's confirmation and g? help).
--- "single" is thin lines with sharp corners. fzf-lua, lazy.nvim and which-key
+-- "single" is thin lines with sharp corners. fzf-lua, lazy.nvim and blink.cmp
 -- don't use this option, so their specs set the same border themselves.
 opt.winborder = "single"
 

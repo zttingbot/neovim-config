@@ -1,8 +1,7 @@
 ---lualine.nvim: statusline.
 ---
----Shows mode, git status, diagnostics, LSP status, file info and cursor
----position in one statusline across the bottom, themed from the active
----colorscheme.
+---One statusline across the bottom, themed from the active colorscheme.
+---Sections are lualine's defaults except where overridden below.
 ---@see https://github.com/nvim-lualine/lualine.nvim
 ---@see :help lualine.txt
 

@@ -1,4 +1,4 @@
----Editor plugins: file finder, file explorer, git signs.
+---Editor plugins: moving around files and projects, and git.
 ---
 ---Each plugin in this folder has its own file returning a single spec;
 ---lazy.nvim loads them all through the "plugins.editor" import in config/lazy.lua.

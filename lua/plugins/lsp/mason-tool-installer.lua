@@ -16,7 +16,8 @@
 ---:help lspconfig-all), translated through mason-lspconfig. Other tools use
 ---mason package names, as :Mason shows them. A formatter that also has an
 ---lspconfig config (e.g. stylua) must be in automatic_enable's exclude in
----plugins/lsp/lspconfig.lua, or it is started as a server too.
+---plugins/lsp/lspconfig.lua, or it is started as a server too; to run it as
+---a server anyway, turn its formatting off in after/lsp/<server>.lua.
 local PACKAGES = {
   -- Language servers ----------------------------------------------------------
 
@@ -31,6 +32,7 @@ local PACKAGES = {
 
   -- Programming languages
   "basedpyright", -- Python
+  "ruff", -- Python linting; also conform's Python formatter
 
   -- Web
   "cssls",
@@ -40,7 +42,6 @@ local PACKAGES = {
   -- Formatters (run by conform, plugins/coding/conform.lua) -------------------
 
   "stylua", -- Lua
-  "ruff", -- Python
 }
 
 ---@type LazySpec

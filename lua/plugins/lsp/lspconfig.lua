@@ -23,9 +23,11 @@ return {
   opts = {
     -- vim.lsp.enable() every mason-installed server, including ones added
     -- from :Mason. Formatters that also ship an lspconfig config would be
-    -- started as servers too, so they're listed in exclude: conform
-    -- already runs them, and as servers they'd set 'formatexpr' or
-    -- duplicate the buffer's real language server.
-    automatic_enable = { exclude = { "stylua", "ruff" } },
+    -- started as servers too: conform already runs them, and as servers
+    -- they'd set 'formatexpr' or duplicate the buffer's real language
+    -- server. They're listed in exclude, unless the server is worth running
+    -- for other features (e.g. lint diagnostics); then after/lsp/<server>.lua
+    -- turns its formatting off instead.
+    automatic_enable = { exclude = { "stylua" } },
   },
 }

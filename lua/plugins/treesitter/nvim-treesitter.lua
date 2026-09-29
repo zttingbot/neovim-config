@@ -78,8 +78,8 @@ return {
         -- the current window only.
         vim.wo[0][0].foldmethod = "expr"
         vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-        -- nvim-treesitter's indent is experimental; it takes over from
-        -- smartindent only in buffers with a parser.
+        -- nvim-treesitter's indent is experimental; it replaces the filetype
+        -- indent script only in buffers with a parser.
         vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })

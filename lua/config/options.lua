@@ -71,10 +71,6 @@ opt.shiftwidth = 2
 -- that do contain tabs line up with your own indentation.
 opt.tabstop = 2
 
--- Indent new lines automatically from the code structure (e.g. one level deeper
--- after `{`). Filetype indent scripts or treesitter take over when available.
-opt.smartindent = true
-
 -- Save undo history to disk, so you can undo changes even after closing and
 -- reopening a file. Stored under `stdpath("state")/undo`.
 opt.undofile = true

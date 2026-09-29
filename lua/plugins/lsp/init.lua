@@ -1,4 +1,4 @@
----LSP plugins: server installer and server configs.
+---LSP plugins: package installer and server configs.
 ---
 ---Each plugin in this folder has its own file returning a single spec;
 ---lazy.nvim loads them all through the "plugins.lsp" import in config/lazy.lua.

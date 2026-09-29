@@ -27,9 +27,8 @@ return {
   },
   opts = {
     -- Formatters are binaries conform runs, not plugins, so each one must be
-    -- installed through mason. stylua is listed in SERVERS in
-    -- plugins/lsp/lspconfig.lua; formatters that aren't language servers
-    -- (e.g. prettier) are installed from :Mason.
+    -- installed through mason: every formatter listed here must also be in
+    -- PACKAGES in plugins/lsp/mason-tool-installer.lua.
     formatters_by_ft = {
       -- stylua reads stylua.toml at the config root.
       lua = { "stylua" },

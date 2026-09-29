@@ -1,10 +1,10 @@
----nvim-lspconfig + mason-lspconfig: server configs, installed and enabled.
+---nvim-lspconfig + mason-lspconfig: server configs, enabled when installed.
 ---
 ---Neovim 0.12 has a built-in LSP client (vim.lsp.config / vim.lsp.enable);
 ---nvim-lspconfig only ships default configs as `lsp/<server>.lua` (command,
----filetypes, root markers), so it needs no setup(). mason-lspconfig installs
----the servers in SERVERS through mason and calls vim.lsp.enable() for every
----mason-installed server.
+---filetypes, root markers), so it needs no setup(). mason-lspconfig calls
+---vim.lsp.enable() for every mason-installed server. Which servers get
+---installed is listed in plugins/lsp/mason-tool-installer.lua.
 ---
 ---Keymaps are Neovim's defaults: K hover, grn rename, gra code action,
 ---grr references, gri implementation, grt type definition, gO document
@@ -15,41 +15,16 @@
 ---@see :help lsp
 ---@see :help mason-lspconfig
 
----Servers to install. Missing ones are installed in the background at
----startup, so this list is what makes a server part of the config on every
----machine; installing from :Mason alone affects the current machine only.
----
----Entries are lspconfig server names, not filetypes or mason package names
----(`lua_ls`, not `lua-language-server`); see :help lspconfig-all.
-local SERVERS = {
-  -- Lua
-  "lua_ls",
-  "stylua", -- formatter used by conform; also runs as a formatting-only server
-
-  -- Shell and config formats
-  "bashls",
-  "jsonls",
-  "taplo", -- TOML
-  "yamlls",
-
-  -- Programming languages
-  "basedpyright", -- Python
-
-  -- Web
-  "cssls",
-  "html",
-  "vtsls", -- JavaScript and TypeScript
-}
-
 ---@type LazySpec
 return {
   "mason-org/mason-lspconfig.nvim",
   dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
   lazy = false,
   opts = {
-    ensure_installed = SERVERS,
     -- vim.lsp.enable() every mason-installed server, including ones added
-    -- from :Mason outside SERVERS.
-    automatic_enable = true,
+    -- from :Mason. stylua has an lspconfig config, so it would be enabled as
+    -- a server; it's excluded because conform already runs it, and as a
+    -- server it would also set 'formatexpr' in Lua buffers.
+    automatic_enable = { exclude = { "stylua" } },
   },
 }

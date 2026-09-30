@@ -23,7 +23,16 @@ return {
   ---@module "blink.cmp"
   ---@type blink.cmp.Config
   opts = {
-    keymap = { preset = "default" },
+    keymap = {
+      preset = "default",
+      -- Setting a key to false removes it from the preset; the rest stay.
+      -- The preset uses <C-k> to show/hide the function signature popup,
+      -- but it never passes the key on to Vim, which uses <C-k> in insert
+      -- mode to type special characters (<C-k> n ? → ñ, <C-k> a ' → á).
+      -- Removing it gives <C-k> back to Vim. The signature popup still
+      -- opens by itself while typing arguments, and <C-s> opens it too.
+      ["<C-k>"] = false,
+    },
     completion = {
       -- Borders set here: blink.cmp doesn't read vim.o.winborder.
       menu = { border = "single" },

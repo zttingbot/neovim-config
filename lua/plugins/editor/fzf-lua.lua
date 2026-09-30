@@ -12,7 +12,6 @@ return {
   -- Load on the first :FzfLua command or keymap below, not at startup.
   cmd = "FzfLua",
   keys = {
-    { "<leader><space>", "<cmd>FzfLua files<CR>", desc = "Find files" },
     { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find files" },
     { "<leader>fg", "<cmd>FzfLua live_grep<CR>", desc = "Grep project" },
     { "<leader>fw", "<cmd>FzfLua grep_cword<CR>", desc = "Grep word under cursor" },

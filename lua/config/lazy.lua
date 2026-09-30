@@ -37,6 +37,7 @@ local opts = {
   install = { colorscheme = { "catppuccin", "habamax" } }, -- used while installing; habamax is the built-in fallback
   checker = { enabled = true, notify = false }, -- check for updates in the background, silently
   change_detection = { notify = false },
+  rocks = { enabled = false }, -- no plugin here needs luarocks; silences its :checkhealth error
   ui = { border = "single" }, -- same as vim.o.winborder, which lazy.nvim doesn't read
   performance = {
     rtp = {

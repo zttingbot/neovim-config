@@ -10,6 +10,17 @@ Modes: `n` normal, `x` visual, `o` operator-pending (after `d`, `y`, `c`, ...), 
 | --- | --- | --- |
 | `<Esc>` | n | Clear search highlight |
 
+## Splits and panes
+
+The same keys move between Neovim splits and tmux panes: at the edge of Neovim they go to the neighbouring tmux pane.
+
+| Keys | Mode | Action |
+| --- | --- | --- |
+| `<C-h>` / `<C-l>` | n | Go to the left / right split or pane |
+| `<C-j>` / `<C-k>` | n | Go to the lower / upper split or pane |
+| `<A-h>` / `<A-l>` | n | Resize the split left / right |
+| `<A-j>` / `<A-k>` | n | Resize the split down / up |
+
 ## Find
 
 | Keys | Mode | Action |
@@ -34,6 +45,8 @@ Oil shows a folder as a buffer. Edit the lines to create, rename, move or delete
 | --- | --- | --- |
 | `-` | n | Open the file explorer, or go to the parent folder inside it |
 | `<CR>` | n | Open the file or folder under the cursor |
+| `<C-x>` | n | Open the entry under the cursor in a horizontal split |
+| `<C-r>` | n | Reload the listing from disk |
 | `g.` | n | Toggle hidden files |
 | `q` | n | Close the explorer |
 | `g?` | n | List every oil key |

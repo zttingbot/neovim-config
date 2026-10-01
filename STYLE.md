@@ -9,8 +9,8 @@ The rules describe what the files already do. When a file and this page disagree
 [StyLua](https://github.com/JohnnyMorganz/StyLua) formats the code. Its settings, and the reason for each one, are in [`stylua.toml`](stylua.toml).
 
 - Code wraps at 120 columns. StyLua does this.
-- Comments wrap at 79 columns. StyLua doesn't touch comments, so wrap them by hand.
-- Three kinds of comment line may run past 79 columns, because they can't be split: the summary line of a file header, a `---@see` line, and any other `---@` annotation.
+- Comments wrap at 80 columns. StyLua doesn't touch comments, so wrap them by hand.
+- Three kinds of comment line may run past 80 columns, because they can't be split: the summary line of a file header, a `---@see` line, and any other `---@` annotation.
 
 ## File header
 
@@ -33,7 +33,7 @@ return {
 - The first line is a one-line summary that ends with a period. It stays on one line.
 - The second line is an empty `---`. Paragraphs in the body are separated the same way.
 - The body says what the file adds, why it is set up this way, and how to use or check it.
-- `---@see` lines come last, with no empty line before them. Put the repository URL first, then `:help` topics.
+- `---@see` lines come last, with no empty line before them. Put the repository URL first, then `:help` topics, then any other link, such as a documentation page.
 - Leave one empty line after the header. `---@type` goes directly above `return`.
 
 The summary line depends on the kind of file:

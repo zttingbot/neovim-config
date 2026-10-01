@@ -17,7 +17,7 @@
 # instead of being formatted as if it were valid.
 syntax = "LuaJIT"
 
-# Code wraps at 120 columns; comments are still wrapped by hand at 79.
+# Code wraps at 120 columns; comments are still wrapped by hand at 80.
 column_width = 120 # columns
 
 # Unix endings keep diffs clean if a file is ever edited on Windows.

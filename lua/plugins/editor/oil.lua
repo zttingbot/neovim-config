@@ -11,12 +11,12 @@ return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   -- Load at startup so it can take over directory buffers (`nvim .`,
-  -- `:e dir/`) before netrw does.
+  -- :e dir/) before netrw does.
   lazy = false,
   keys = {
-    -- Inside oil, `-` is oil's own "go to parent" map, so pressing it again
-    -- goes up.
-    { "-", "<cmd>Oil<CR>", desc = "File explorer" },
+    -- Inside oil the same key is oil's own "go to parent" map, so pressing it
+    -- again goes up.
+    { "-", "<cmd>Oil<CR>", desc = "Open file explorer" },
   },
   opts = {
     default_file_explorer = true,
@@ -33,12 +33,22 @@ return {
       cursorline = true,
     },
     view_options = {
-      -- Hide dotfiles; toggle with g.
+      -- Hide dotfiles; g. shows them again.
       show_hidden = false,
     },
     keymaps = {
-      -- Close with q (back to the previous buffer), like help and :Lazy.
+      -- q: close oil and go back to the previous buffer, like help and
+      -- :Lazy.
       ["q"] = { "actions.close", mode = "n" },
+      -- <C-h> and <C-l> are removed so split navigation works inside oil:
+      -- oil's buffer-local maps would win over the global ones. The actions
+      -- they held move to the two keys below.
+      ["<C-h>"] = false,
+      ["<C-l>"] = false,
+      -- <C-x>: open the entry under the cursor in a horizontal split.
+      ["<C-x>"] = { "actions.select", opts = { horizontal = true } },
+      -- <C-r>: reload the listing from disk.
+      ["<C-r>"] = "actions.refresh",
     },
   },
 }

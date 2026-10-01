@@ -20,7 +20,7 @@ Every file starts with a header comment written with `---`:
 ---plugin-name: what it does.
 ---
 ---What the plugin adds, and why it is set up this way. Commands and keys the
----reader can use or check it with, such as :PluginInfo.
+---reader can use or check it with, such as `:PluginInfo`.
 ---
 ---A second paragraph, when there is more to say.
 ---@see https://github.com/owner/plugin-name
@@ -94,21 +94,21 @@ A command or a key is the exception to "say why, not what". The reader can't gue
 - Explain a command in the file header, in one sentence: the command, then a verb in the present tense.
 
   ```lua
-  ---:PluginInfo shows which tools apply to the current buffer and whether
+  ---`:PluginInfo` shows which tools apply to the current buffer and whether
   ---they are installed.
   ```
 
 - Explain a key in a comment above its keymap. Start with the key and a colon:
 
   ```lua
-  -- <leader>hs: stage the hunk under the cursor, like `git add -p` for just
+  -- `<leader>hs`: stage the hunk under the cursor, like `git add -p` for just
   -- that block. Press it again on a staged hunk to unstage it.
   ```
 
-- When a shell or Vim command does the same thing, name it in backticks. When the way back isn't obvious, say how to undo or close it.
+- When a shell or Ex command does the same thing, name it in backticks. When the way back isn't obvious, say how to undo or close it.
 - Skip the comment when the keymap's `desc` already says everything, as in a list of pickers.
-- Explain only the commands and keys the reader will use. When the plugin can list the rest itself, point to that instead: "Press g? to list all its shortcuts."
-- List the keys a plugin sets by itself, such as a preset, in the file header as pairs of key and action: `<C-y> accept, <C-e> close`.
+- Explain only the commands and keys the reader will use. When the plugin can list the rest itself, point to that instead: "Press `` `g?` `` to list all its shortcuts."
+- List the keys a plugin sets by itself, such as a preset, in the file header as pairs of key and action: `` `<C-y>` accept, `<C-e>` close ``.
 
 ### How a comment is written
 
@@ -122,7 +122,7 @@ A command or a key is the exception to "say why, not what". The reader can't gue
 - A comment about one key, value or call starts with it, then a colon, then lowercase:
 
   ```lua
-  -- <leader>hS: stage every change in the file (`git add <file>`).
+  -- `<leader>hS`: stage every change in the file (`git add <file>`).
   -- pcall: the column may be past the end of the line.
   ```
 
@@ -133,12 +133,23 @@ A command or a key is the exception to "say why, not what". The reader can't gue
 
 | Thing | Written as | Example |
 | --- | --- | --- |
-| Key | Vim notation, no quotes | `<C-h>`, `]c`, `g?` |
-| Ex command | leading colon, no quotes | `:ConformInfo` |
+| Key or keys typed in a row | backticks, Vim notation | `` `<C-h>` ``, `` `]c` ``, `` `daf` `` |
+| Ex command | backticks, leading colon | `` `:ConformInfo` `` |
+| Shell command | backticks | `` `git add -p` `` |
+| Lua code, or a name from it | backticks | `` `opts` ``, `` `clear = true` `` |
+| Another file | backticks, path from the config root | `` `lua/plugins/lsp/lazydev.lua` `` |
 | Vim option | single quotes | `'runtimepath'` |
 | String value | double quotes | `"single"` |
-| Lua code, a shell command, or keys typed as a sequence | backticks | `` `daf` ``, `` `git add -p` `` |
-| Another file | path from the config root | `lua/plugins/lsp/lazydev.lua` |
+
+### Backticks
+
+Backticks mean inline code, as in Markdown. lua_ls renders `---` comments as Markdown, Neovim's own Lua docstrings are written this way, and `:help help-writing` asks for backticks around any technical term or symbol.
+
+- Put them around anything the reader could type or find in a file, exactly as written: a key, an Ex or shell command, Lua code or a name from it, a file path, an event, a register.
+- Two things keep Vim's notation instead: an option goes in single quotes and a string value in double quotes.
+- A key always takes them, even at the start of a keymap comment. A Markdown renderer can read a bare `<leader>` as an HTML tag and drop it.
+- Don't use them for the name of a plugin, a tool or a language, such as fzf-lua, StyLua or Lua, or to emphasize a word.
+- One notation per thing: no backticks around a quoted option or a quoted string.
 
 ### Dividers and groups
 
@@ -177,7 +188,7 @@ A command or a key is the exception to "say why, not what". The reader can't gue
 - Every spec says how it loads, and a comment gives the reason:
 
   ```lua
-  -- Load on the first :PluginInfo or keymap below, not at startup.
+  -- Load on the first `:PluginInfo` or keymap below, not at startup.
   cmd = "PluginInfo",
   ```
 

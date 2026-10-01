@@ -1,37 +1,41 @@
 ---Core editor options, no plugin dependencies.
 ---
----Loaded first from init.lua: leaders are set here because lazy.nvim reads them
----when it registers plugin keymaps.
----@see :help option-list
+---Loaded first from `init.lua`: leaders are set here because lazy.nvim reads
+---them when it registers plugin keymaps.
 ---
----Kept in sync with stylua.toml
----  - shiftwidth = 2 matches indent_width = 2, so Lua typed here is already
+---Kept in sync with `stylua.toml`
+---  - 'shiftwidth' = 2 matches `indent_width = 2`, so Lua typed here is already
 ---    indented the way stylua writes it.
+---@see :help option-list
 
 -- Leader keys -----------------------------------------------------------------
 
--- <leader>: prefix for your own mappings (e.g. <leader>ff). Space is easy to reach
--- and does almost nothing in normal mode (it just moves right, like `l`).
+-- `<leader>`: prefix for your own mappings (e.g. `<leader>ff`). Space is
+-- easy to reach and does almost nothing in normal mode (it just moves right,
+-- like `l`).
 vim.g.mapleader = " "
 
--- <localleader>: prefix for filetype-specific, buffer-local mappings (e.g. only in
--- markdown or LaTeX buffers). Backslash is Vim's traditional default leader.
+-- `<localleader>`: prefix for filetype-specific, buffer-local mappings (e.g.
+-- only in markdown or LaTeX buffers). Backslash is Vim's traditional default
+-- leader.
 vim.g.maplocalleader = "\\"
 
 local opt = vim.opt
 
 -- UI --------------------------------------------------------------------------
 
--- Show line numbers in the left column.
+-- Show line numbers in the left column, so a line named in an error message
+-- or a diff is easy to find.
 opt.number = true
 
 -- Show other lines as a distance from the cursor, so counts like `5j` or `3dd`
--- can be read off the screen. With `number` also on, the cursor line keeps its
+-- can be read off the screen. With 'number' also on, the cursor line keeps its
 -- absolute number ("hybrid" numbering).
 opt.relativenumber = true
 
--- Always show the sign column (diagnostics, git changes, breakpoints). Otherwise
--- it appears and disappears as signs come and go, shifting the text sideways.
+-- Always show the sign column (diagnostics, git changes, breakpoints).
+-- Otherwise it appears and disappears as signs come and go, shifting the text
+-- sideways.
 opt.signcolumn = "yes"
 
 -- Don't show "-- INSERT --" in the command line; the statusline already shows
@@ -51,24 +55,25 @@ opt.scrolloff = 8
 
 -- Editing ---------------------------------------------------------------------
 
--- Enable the mouse in all modes: click to move, scroll, drag to select, and drag
--- split borders to resize.
+-- Enable the mouse in all modes: click to move, scroll, drag to select, and
+-- drag split borders to resize.
 opt.mouse = "a"
 
--- Yank, delete and put use the system clipboard (the `+` register), so text moves
--- between Neovim and other apps. On Linux this needs wl-clipboard (Wayland) or
--- xclip/xsel (X11). See `:checkhealth provider`.
+-- Yank, delete and put use the system clipboard (the `+` register), so text
+-- moves between Neovim and other apps. On Linux this needs wl-clipboard
+-- (Wayland) or xclip/xsel (X11). See `:checkhealth provider`.
 opt.clipboard = "unnamedplus"
 
--- The Tab key inserts spaces instead of a literal tab character.
+-- The Tab key inserts spaces instead of a literal tab character, so
+-- indentation looks the same in every editor and diff.
 opt.expandtab = true
 
 -- Number of spaces per indent level, used by `>>`, `<<`, `=` and auto-indent.
 -- See "Kept in sync" above.
 opt.shiftwidth = 2
 
--- How wide a real tab character is displayed. Kept equal to `shiftwidth` so files
--- that do contain tabs line up with your own indentation.
+-- How wide a real tab character is displayed. Kept equal to 'shiftwidth' so
+-- files that do contain tabs line up with your own indentation.
 opt.tabstop = 2
 
 -- Save undo history to disk, so you can undo changes even after closing and
@@ -78,7 +83,7 @@ opt.undofile = true
 -- Folding ---------------------------------------------------------------------
 
 -- Folds come from treesitter where a parser exists (set per buffer in
--- plugins/treesitter/nvim-treesitter.lua). These options only control how
+-- `lua/plugins/treesitter/nvim-treesitter.lua`). These options only control how
 -- they start and look.
 
 -- Open all folds by default; close them yourself with `zc` / `zM`. 99 is just
@@ -92,11 +97,12 @@ opt.foldtext = ""
 
 -- Search ----------------------------------------------------------------------
 
--- Searches ignore case: `/foo` also matches `Foo` and `FOO`.
+-- Searches ignore case: `/foo` also matches `Foo` and `FOO`, so you don't have
+-- to remember how a name is capitalized.
 opt.ignorecase = true
 
--- ...unless the pattern contains an uppercase letter: `/Foo` then matches only
--- `Foo`. Applies to typed patterns, not to `*` / `#`.
+-- A pattern with an uppercase letter is matched exactly instead: `/Foo` matches
+-- only `Foo`. Applies to typed patterns, not to `*` / `#`.
 opt.smartcase = true
 
 -- Windows ---------------------------------------------------------------------
@@ -108,9 +114,9 @@ opt.splitright = true
 opt.splitbelow = true
 
 -- Default border for floating windows: LSP hover, diagnostics, and plugin
--- popups that leave their border unset (e.g. oil's confirmation and g? help).
--- "single" is thin lines with sharp corners. fzf-lua, lazy.nvim and blink.cmp
--- don't use this option, so their specs set the same border themselves.
+-- popups that leave their border unset (e.g. oil's confirmation and `g?` help).
+-- "single" is thin lines with sharp corners. Plugins that don't use this
+-- option set the same border in their own specs.
 opt.winborder = "single"
 
 -- Performance -----------------------------------------------------------------

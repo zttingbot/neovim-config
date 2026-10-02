@@ -33,6 +33,10 @@ opt.number = true
 -- absolute number ("hybrid" numbering).
 opt.relativenumber = true
 
+-- Highlight the line the cursor is on, so it is easy to find after a jump or
+-- when switching between windows.
+opt.cursorline = true
+
 -- Always show the sign column (diagnostics, git changes, breakpoints).
 -- Otherwise it appears and disappears as signs come and go, shifting the text
 -- sideways.

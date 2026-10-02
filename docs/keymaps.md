@@ -89,6 +89,20 @@ These keys only exist in buffers for files inside a git repository.
 | `<leader>cf` | n, x | Format buffer or selection |
 | `<M-e>` | i | Fast wrap: move the closing bracket or quote after the next word or expression |
 
+## Surround
+
+A surround is the pair around text: brackets, quotes, a tag or a function call. `{char}` names the pair, for example `)` or `"`. `t` asks for an HTML tag and `f` for a function name.
+
+| Keys | Mode | Action |
+| --- | --- | --- |
+| `ys{motion}{char}` | n | Add a pair around the motion |
+| `yss{char}` | n | Add a pair around the line |
+| `ds{char}` | n | Delete the pair |
+| `cs{old}{new}` | n | Change the pair |
+| `S{char}` | x | Add a pair around the selection |
+| `<C-g>s{char}` | i | Add a pair at the cursor |
+| `yS` / `ySS` / `cS` / `gS` / `<C-g>S` | n, x, i | Same as above, with the pair on its own lines |
+
 ## LSP
 
 Neovim's default keymaps, active when a language server is attached.

@@ -51,6 +51,17 @@ Oil shows a folder as a buffer. Edit the lines to create, rename, move or delete
 | `q` | n | Close the explorer |
 | `g?` | n | List every oil key |
 
+## Sessions
+
+A session is the set of open files, splits and tabs. One is saved per directory when Neovim exits; inside a git repository, each branch has its own.
+
+| Keys | Mode | Action |
+| --- | --- | --- |
+| `<leader>qs` | n | Restore the session for the current directory |
+| `<leader>qS` | n | Select a session from a list |
+| `<leader>ql` | n | Restore the last saved session |
+| `<leader>qd` | n | Don't save a session on exit |
+
 ## Git
 
 These keys only exist in buffers for files inside a git repository.

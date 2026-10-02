@@ -43,3 +43,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
     end
   end,
 })
+
+---Make splits the same size again when the terminal window is resized.
+---Otherwise the splits keep their old sizes and some end up squeezed.
+vim.api.nvim_create_autocmd("VimResized", {
+  group = group,
+  desc = "Equalize splits on resize",
+  callback = function()
+    -- `:tabdo` visits every tab page and ends on the last one, so return to
+    -- the tab that was current.
+    local tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. tab)
+  end,
+})

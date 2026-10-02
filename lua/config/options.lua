@@ -80,6 +80,10 @@ opt.shiftwidth = 2
 -- files that do contain tabs line up with your own indentation.
 opt.tabstop = 2
 
+-- In visual block mode (`<C-v>`), let the cursor move past the end of a line,
+-- so a block can be a full rectangle even when some of its lines are shorter.
+opt.virtualedit = "block"
+
 -- Save undo history to disk, so you can undo changes even after closing and
 -- reopening a file. Stored under `stdpath("state")/undo`.
 opt.undofile = true

@@ -29,3 +29,17 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+---Reload files that changed on disk (a `git checkout`, a tool run in a
+---terminal) when Neovim regains focus or a terminal closes. 'autoread' only
+---reloads a file when something checks it, and `:checktime` is that check.
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = group,
+  desc = "Check for files changed outside Neovim",
+  callback = function()
+    -- `:checktime` fails in the command-line window, whose buffer is "nofile".
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})

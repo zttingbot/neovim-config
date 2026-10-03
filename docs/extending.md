@@ -34,7 +34,7 @@ To check that it worked, open `:Lazy` and find the plugin in the list.
 
 ## Add a language server
 
-1. Add the server's lspconfig name, for example `lua_ls`, to `PACKAGES` in `lua/plugins/lsp/mason-tool-installer.lua`. Find the name with `:help lspconfig-all`.
+1. Add the server's lspconfig name, for example `lua_ls`, to `servers` in `lua/config/tools.lua`. Find the name with `:help lspconfig-all`.
 2. Restart Neovim. The server installs and is enabled.
 
 To check that it worked, open a file of that language and run `:checkhealth vim.lsp`.
@@ -58,11 +58,8 @@ To check that it worked, run `:checkhealth vim.lsp` and look at the server's set
 ## Add a formatter
 
 1. Add the formatter to `formatters_by_ft` in `lua/plugins/coding/conform.lua`, under the filetype it formats.
-2. Add its mason package name, for example `stylua`, to `PACKAGES` in `lua/plugins/lsp/mason-tool-installer.lua`.
-3. If the tool also has an lspconfig config, choose one of these, as explained in [Formatting](architecture.md#formatting):
-   - Add it to `automatic_enable.exclude` in `lua/plugins/lsp/lspconfig.lua`.
-   - Turn off its formatting in `after/lsp/<server>.lua`.
-4. Restart Neovim.
+2. Add its mason package name, for example `stylua`, to `formatters` in `lua/config/tools.lua`. If it is also a language server you want running, for example for linting, add it to `servers` instead and turn off its formatting in `after/lsp/<server>.lua`, as explained in [Formatting](architecture.md#formatting).
+3. Restart Neovim.
 
 To check that it worked, open a file of that filetype and run `:ConformInfo`.
 

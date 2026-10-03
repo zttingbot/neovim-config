@@ -28,7 +28,8 @@ return {
   opts = {
     -- Formatters are binaries conform runs, not plugins, so each one must be
     -- installed through mason: every formatter listed here must also be in
-    -- PACKAGES in plugins/lsp/mason-tool-installer.lua.
+    -- `lua/config/tools.lua`, under `formatters`, or under `servers` when the
+    -- tool also runs as a language server.
     formatters_by_ft = {
       -- stylua reads stylua.toml at the config root.
       lua = { "stylua" },

@@ -60,8 +60,19 @@ return {
   -- queries.
   build = ":TSUpdate",
   config = function()
-    -- Asynchronous; parsers that are already installed are skipped.
-    require("nvim-treesitter").install(PARSERS)
+    ---Install missing parsers after the first screen. Requiring the install
+    ---code costs about 12 ms even when every parser is installed, and
+    ---installed parsers work without it. Asynchronous; installed parsers are
+    ---skipped.
+    vim.api.nvim_create_autocmd("User", {
+      group = vim.api.nvim_create_augroup("user_treesitter_install", { clear = true }),
+      pattern = "VeryLazy",
+      once = true,
+      desc = "Install missing treesitter parsers",
+      callback = function()
+        require("nvim-treesitter").install(PARSERS)
+      end,
+    })
 
     ---Use treesitter for highlighting, folds and indent in buffers whose
     ---filetype has a parser installed; other buffers keep the regex syntax.

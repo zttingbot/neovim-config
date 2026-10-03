@@ -1,33 +1,36 @@
----nvim-lspconfig + mason-lspconfig: server configs, enabled when installed.
+---nvim-lspconfig: default server configs, enabled from the list in `lua/config/tools.lua`.
 ---
----Neovim 0.12 has a built-in LSP client (vim.lsp.config / vim.lsp.enable);
+---Neovim 0.12 has a built-in LSP client (`vim.lsp.config`, `vim.lsp.enable`).
 ---nvim-lspconfig only ships default configs as `lsp/<server>.lua` (command,
----filetypes, root markers), so it needs no setup(). mason-lspconfig calls
----vim.lsp.enable() for every mason-installed server. Which servers get
----installed is listed in plugins/lsp/mason-tool-installer.lua.
+---filetypes, root markers), so it needs no `setup()`. This spec enables the
+---servers listed in `lua/config/tools.lua`; mason-tool-installer installs the
+---same list.
 ---
----Keymaps are Neovim's defaults: K hover, grn rename, gra code action,
----grr references, gri implementation, grt type definition, gO document
----symbols, [d / ]d diagnostics, <C-s> signature help (insert mode).
----Check attached servers with :checkhealth vim.lsp.
+---The servers are enabled here, not by mason-lspconfig's `automatic_enable`:
+---that loads mason's package registry to find the installed servers, which
+---added about 80 ms to every startup. A fixed list costs about 15 ms. Tools
+---that are both a formatter and a server (e.g. stylua) are never started as
+---servers unless they are in the servers list.
+---
+---Keymaps are Neovim's defaults: `K` hover, `grn` rename, `gra` code action,
+---`grr` references, `gri` implementation, `grt` type definition, `gO` document
+---symbols, `[d` / `]d` diagnostics, `<C-s>` signature help (insert mode).
+---`:checkhealth vim.lsp` shows which servers are attached.
 ---@see https://github.com/neovim/nvim-lspconfig
----@see https://github.com/mason-org/mason-lspconfig.nvim
 ---@see :help lsp
----@see :help mason-lspconfig
 
 ---@type LazySpec
 return {
-  "mason-org/mason-lspconfig.nvim",
-  dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
+  "neovim/nvim-lspconfig",
+  -- mason's `setup()` puts its `bin/` on `$PATH`, which must happen before a
+  -- server starts.
+  dependencies = { "mason-org/mason.nvim" },
+  -- Load at startup, so a file opened with `nvim file` gets its server: a
+  -- server enabled after the buffer's `FileType` event doesn't attach to it.
   lazy = false,
-  opts = {
-    -- vim.lsp.enable() every mason-installed server, including ones added
-    -- from :Mason. Formatters that also ship an lspconfig config would be
-    -- started as servers too: conform already runs them, and as servers
-    -- they'd set 'formatexpr' or duplicate the buffer's real language
-    -- server. They're listed in exclude, unless the server is worth running
-    -- for other features (e.g. lint diagnostics); then after/lsp/<server>.lua
-    -- turns its formatting off instead.
-    automatic_enable = { exclude = { "stylua" } },
-  },
+  ---Enable every listed server. A server starts when a buffer of one of its
+  ---filetypes opens.
+  config = function()
+    vim.lsp.enable(require("config.tools").servers)
+  end,
 }

@@ -46,7 +46,7 @@ The LSP pipeline, Treesitter and Formatting nodes each have their own section be
 4. [`autocmds`](../lua/config/autocmds.lua) adds core autocommands.
 5. [`diagnostics`](../lua/config/diagnostics.lua) sets how diagnostics are shown.
 
-Nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load.
+Nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. One module there isn't in this list: [`tools`](../lua/config/tools.lua) is plain data, the servers and formatters to install, and the LSP plugin specs `require` it.
 
 ## How plugins load
 
@@ -73,14 +73,14 @@ Language servers go through four stages, from a name in a list to a client attac
 
 ```mermaid
 flowchart LR
-  list[PACKAGES list] --> install[mason installs] --> enable[mason-lspconfig enables] --> merge[config merge] --> client[client attaches]
+  list[servers list] --> install[mason installs] --> enable[vim.lsp.enable] --> merge[config merge] --> client[client attaches]
   defaults["nvim-lspconfig<br/>lsp/*.lua"] -- defaults --> merge
   after["after/lsp/*.lua"] -. merged last, wins .-> merge
 ```
 
-1. **List.** `PACKAGES` in [`mason-tool-installer.lua`](../lua/plugins/lsp/mason-tool-installer.lua) names every server and tool the config needs. Missing entries install in the background at startup.
+1. **List.** [`config/tools.lua`](../lua/config/tools.lua) names every server and formatter the config needs. [mason-tool-installer](../lua/plugins/lsp/mason-tool-installer.lua) installs missing entries in the background, just after startup.
 2. **Install.** [mason.nvim](../lua/plugins/lsp/mason.lua) downloads each package into Neovim's data directory and adds its binaries to `$PATH`.
-3. **Enable.** [mason-lspconfig](../lua/plugins/lsp/lspconfig.lua) calls `vim.lsp.enable()` for every installed server, except the ones listed in `automatic_enable.exclude`.
+3. **Enable.** [`lspconfig.lua`](../lua/plugins/lsp/lspconfig.lua) calls `vim.lsp.enable()` for each entry in the servers list, at startup, so a file opened with `nvim file` gets its server. Servers installed from `:Mason` but missing from the list are not enabled.
 4. **Configure.** Neovim builds each server's config by merging every `lsp/<server>.lua` on the runtime path. nvim-lspconfig ships the defaults. Files in [`after/lsp/`](../after/lsp) merge last, so their settings win.
 
 Once a server attaches, Neovim's default LSP keymaps apply (`:help lsp-defaults`).
@@ -96,7 +96,7 @@ flowchart LR
 ```
 
 1. **List.** `PARSERS` in [`nvim-treesitter.lua`](../lua/plugins/treesitter/nvim-treesitter.lua) names every parser the config needs. Entries are language names, not filetypes. Neovim already bundles parsers for a few languages.
-2. **Install.** Missing parsers compile in the background at startup, which needs the tree-sitter CLI and a C compiler. `build = ":TSUpdate"` recompiles them when the plugin updates.
+2. **Install.** Missing parsers compile in the background just after startup, which needs the tree-sitter CLI and a C compiler. `build = ":TSUpdate"` recompiles them when the plugin updates.
 3. **Start.** On `FileType`, the config calls `vim.treesitter.start()` and sets `foldexpr` and `indentexpr` to their treesitter versions. Buffers whose language has no parser keep the regex syntax.
 
 The other plugins in `lua/plugins/treesitter/` build on the same syntax tree.
@@ -105,7 +105,7 @@ The other plugins in `lua/plugins/treesitter/` build on the same syntax tree.
 
 [conform.nvim](../lua/plugins/coding/conform.lua) formats the buffer. It runs the formatter listed for the buffer's filetype. When none is listed, it asks the language server instead.
 
-Some tools are both a formatter and a language server. mason-lspconfig would start them as servers too, which would format the buffer twice or duplicate the buffer's real server. Handle each such tool one of two ways:
+Some tools are both a formatter and a language server. Put each such tool in one of the two lists in [`config/tools.lua`](../lua/config/tools.lua):
 
-- If you only want it as a formatter, add it to `automatic_enable.exclude`.
-- If its server does other useful work, such as linting, turn off its formatting in `after/lsp/<server>.lua`.
+- If you only want it as a formatter, put it in `formatters`. It is installed but never started as a server.
+- If its server does other useful work, such as linting, put it in `servers` and turn off its formatting in `after/lsp/<server>.lua`, as `after/lsp/ruff.lua` does.

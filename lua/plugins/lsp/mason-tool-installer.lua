@@ -1,56 +1,39 @@
 ---mason-tool-installer: install mason packages from a list, on every machine.
 ---
 ---mason.nvim has no list of packages to install, and mason-lspconfig's
----ensure_installed only accepts language servers. This plugin takes one list
----for everything: language servers and the tools conform runs. It only
----installs; mason-lspconfig (plugins/lsp/lspconfig.lua) enables the servers.
----:MasonToolsInstall installs missing entries by hand, :MasonToolsUpdate
----updates them.
+---`ensure_installed` only accepts language servers. This plugin takes one
+---list for everything: the servers and formatters in `lua/config/tools.lua`.
+---It only installs; `lua/plugins/lsp/lspconfig.lua` enables the servers.
+---Missing packages install in the background.
+---
+---`:MasonToolsInstall` installs missing packages by hand, and
+---`:MasonToolsUpdate` updates them.
 ---@see https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 
----Packages to install. Missing ones are installed in the background at
----startup, so this list is what makes a package part of the config on every
----machine; installing from :Mason alone affects the current machine only.
----
----Servers use lspconfig names (`lua_ls`, not `lua-language-server`; see
----:help lspconfig-all), translated through mason-lspconfig. Other tools use
----mason package names, as :Mason shows them. A formatter that also has an
----lspconfig config (e.g. stylua) must be in automatic_enable's exclude in
----plugins/lsp/lspconfig.lua, or it is started as a server too; to run it as
----a server anyway, turn its formatting off in after/lsp/<server>.lua.
-local PACKAGES = {
-  -- Language servers ----------------------------------------------------------
-
-  -- Lua
-  "lua_ls",
-
-  -- Shell and config formats
-  "bashls",
-  "jsonls",
-  "taplo", -- TOML
-  "yamlls",
-
-  -- Programming languages
-  "basedpyright", -- Python
-  "ruff", -- Python linting; also conform's Python formatter
-
-  -- Web
-  "cssls",
-  "html",
-  "vtsls", -- JavaScript and TypeScript
-
-  -- Formatters (run by conform, plugins/coding/conform.lua) -------------------
-
-  "stylua", -- Lua
-}
+local tools = require("config.tools")
 
 ---@type LazySpec
 return {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  -- mason-lspconfig translates the lspconfig names above to mason packages.
-  dependencies = { "mason-org/mason.nvim", "mason-org/mason-lspconfig.nvim" },
-  lazy = false,
-  opts = {
-    ensure_installed = PACKAGES,
+  dependencies = {
+    "mason-org/mason.nvim",
+    -- Only translates the lspconfig names in `lua/config/tools.lua` to mason
+    -- packages. `lua/plugins/lsp/lspconfig.lua` enables the servers instead.
+    { "mason-org/mason-lspconfig.nvim", opts = { automatic_enable = false } },
   },
+  -- Load after the first screen: checking for missing packages reads mason's
+  -- package registry, which slows startup, and nothing needs it right away.
+  event = "VeryLazy",
+  opts = {
+    ensure_installed = vim.list_extend(vim.deepcopy(tools.servers), tools.formatters),
+  },
+  ---Set up, then start the install check. The plugin starts it on `VimEnter`,
+  ---which has already passed when `VeryLazy` loads it.
+  ---@param _ LazyPlugin
+  ---@param opts table
+  config = function(_, opts)
+    local mti = require("mason-tool-installer")
+    mti.setup(opts)
+    mti.run_on_start()
+  end,
 }

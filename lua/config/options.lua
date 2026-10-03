@@ -138,6 +138,18 @@ opt.winborder = "single"
 --             shell, or a one-off command such as `git push` run again
 opt.sessionoptions = { "buffers", "curdir", "folds", "help", "tabpages", "winsize" }
 
+-- Providers -------------------------------------------------------------------
+
+-- Turn off the remote-plugin providers. They let Neovim run plugins written in
+-- Node, Perl, Python or Ruby (through pynvim and similar packages); every
+-- plugin here is Lua, so none are needed. Without this, Neovim looks for each
+-- one and `:checkhealth vim.provider` warns that they are missing. Editing
+-- those languages is unaffected: language servers and formatters are separate
+-- programs (see `lua/config/tools.lua`). The clipboard provider stays on.
+for _, provider in ipairs({ "node", "perl", "python3", "ruby" }) do
+  vim.g["loaded_" .. provider .. "_provider"] = 0
+end
+
 -- Performance -----------------------------------------------------------------
 
 -- Milliseconds of idle time before Neovim writes the swap file and fires the

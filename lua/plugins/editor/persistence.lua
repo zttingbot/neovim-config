@@ -7,6 +7,8 @@
 ---where Neovim would otherwise start empty.
 ---
 ---Sessions are stored under `stdpath("state")/sessions`, not in the project.
+---What a session includes is set by 'sessionoptions' in
+---`lua/config/options.lua`.
 ---@see https://github.com/folke/persistence.nvim
 ---@see :help persistence.nvim.txt
 

@@ -127,6 +127,17 @@ opt.splitbelow = true
 -- option set the same border in their own specs.
 opt.winborder = "single"
 
+-- Sessions --------------------------------------------------------------------
+
+-- What a session saves and restores, both for `:mksession` and for the session
+-- plugin (`lua/plugins/editor/persistence.lua`) when Neovim exits. This is
+-- Neovim's default minus two words:
+--   blank     windows whose buffer can't be reopened, e.g. the quickfix list
+--             or a file explorer, would come back as empty windows
+--   terminal  a terminal window would rerun its command on restore: a new
+--             shell, or a one-off command such as `git push` run again
+opt.sessionoptions = { "buffers", "curdir", "folds", "help", "tabpages", "winsize" }
+
 -- Performance -----------------------------------------------------------------
 
 -- Milliseconds of idle time before Neovim writes the swap file and fires the

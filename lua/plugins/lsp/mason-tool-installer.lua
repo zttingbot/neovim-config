@@ -2,7 +2,8 @@
 ---
 ---mason.nvim has no list of packages to install, and mason-lspconfig's
 ---`ensure_installed` only accepts language servers. This plugin takes one
----list for everything: the servers and formatters in `lua/config/tools.lua`.
+---list for everything: the servers, formatters and linters in
+---`lua/config/tools.lua`.
 ---It only installs; `lua/plugins/lsp/lspconfig.lua` enables the servers.
 ---Missing packages install in the background.
 ---
@@ -25,7 +26,7 @@ return {
   -- package registry, which slows startup, and nothing needs it right away.
   event = "VeryLazy",
   opts = {
-    ensure_installed = vim.list_extend(vim.deepcopy(tools.servers), tools.formatters),
+    ensure_installed = vim.iter({ tools.servers, tools.formatters, tools.linters }):flatten():totable(),
   },
   ---Set up, then start the install check. The plugin starts it on `VimEnter`,
   ---which has already passed when `VeryLazy` loads it.

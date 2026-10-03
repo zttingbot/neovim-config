@@ -63,6 +63,16 @@ To check that it worked, run `:checkhealth vim.lsp` and look at the server's set
 
 To check that it worked, open a file of that filetype and run `:ConformInfo`.
 
+## Add a linter
+
+Linters here run inside a language server, not on their own. For example, bashls runs shellcheck and shows its warnings as diagnostics.
+
+1. Add the server that runs the linter to `servers` in `lua/config/tools.lua`, if it isn't there yet.
+2. Add the linter's mason package name, for example `shellcheck`, to `linters` in `lua/config/tools.lua`.
+3. Restart Neovim.
+
+To check that it worked, open a file the server handles and look for the linter's warnings. `]d` jumps to the next one and shows its message.
+
 ## Add a treesitter parser
 
 1. Find the language name for the current buffer:

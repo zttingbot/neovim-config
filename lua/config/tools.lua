@@ -1,4 +1,4 @@
----Language servers and formatters to install, no plugin dependencies.
+---Language servers, formatters and linters to install, no plugin dependencies.
 ---
 ---Plain data, read by two plugin specs:
 ---`lua/plugins/lsp/mason-tool-installer.lua` installs every entry, and
@@ -37,9 +37,18 @@ local SERVERS = {
 ---package names, as `:Mason` shows them.
 local FORMATTERS = {
   "stylua", -- Lua
+  "shfmt", -- shell scripts
+}
+
+---Linters that a language server runs by itself, e.g. shellcheck for bashls's
+---diagnostics. Adding an entry installs it; nothing in this config starts it.
+---Entries are mason package names, as `:Mason` shows them.
+local LINTERS = {
+  "shellcheck", -- shell scripts, through bashls
 }
 
 return {
   servers = SERVERS,
   formatters = FORMATTERS,
+  linters = LINTERS,
 }

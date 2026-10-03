@@ -46,7 +46,7 @@ The LSP pipeline, Treesitter and Formatting nodes each have their own section be
 4. [`autocmds`](../lua/config/autocmds.lua) adds core autocommands.
 5. [`diagnostics`](../lua/config/diagnostics.lua) sets how diagnostics are shown.
 
-Nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. One module there isn't in this list: [`tools`](../lua/config/tools.lua) is plain data, the servers and formatters to install, and the LSP plugin specs `require` it.
+Nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. One module there isn't in this list: [`tools`](../lua/config/tools.lua) is plain data, the servers, formatters and linters to install, and the LSP plugin specs `require` it.
 
 ## How plugins load
 
@@ -78,7 +78,7 @@ flowchart LR
   after["after/lsp/*.lua"] -. merged last, wins .-> merge
 ```
 
-1. **List.** [`config/tools.lua`](../lua/config/tools.lua) names every server and formatter the config needs. [mason-tool-installer](../lua/plugins/lsp/mason-tool-installer.lua) installs missing entries in the background, just after startup.
+1. **List.** [`config/tools.lua`](../lua/config/tools.lua) names every server, formatter and linter the config needs. [mason-tool-installer](../lua/plugins/lsp/mason-tool-installer.lua) installs missing entries in the background, just after startup.
 2. **Install.** [mason.nvim](../lua/plugins/lsp/mason.lua) downloads each package into Neovim's data directory and adds its binaries to `$PATH`.
 3. **Enable.** [`lspconfig.lua`](../lua/plugins/lsp/lspconfig.lua) calls `vim.lsp.enable()` for each entry in the servers list, at startup, so a file opened with `nvim file` gets its server. Servers installed from `:Mason` but missing from the list are not enabled.
 4. **Configure.** Neovim builds each server's config by merging every `lsp/<server>.lua` on the runtime path. nvim-lspconfig ships the defaults. Files in [`after/lsp/`](../after/lsp) merge last, so their settings win.

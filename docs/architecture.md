@@ -103,7 +103,7 @@ The other plugins in `lua/plugins/treesitter/` build on the same syntax tree.
 
 ## Formatting
 
-[conform.nvim](../lua/plugins/coding/conform.lua) formats the buffer. It runs the formatter listed for the buffer's filetype. When none is listed, it asks the language server instead.
+[conform.nvim](../lua/plugins/coding/conform.lua) formats the buffer. It runs the formatter listed for the buffer's filetype. When none is listed, it asks the language server instead. A formatter can be limited to projects that configure it: prettier runs only where a Prettier config exists, and the language server formats everywhere else.
 
 Some tools are both a formatter and a language server. Put each such tool in one of the two lists in [`config/tools.lua`](../lua/config/tools.lua):
 

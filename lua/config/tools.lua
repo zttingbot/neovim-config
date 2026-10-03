@@ -38,6 +38,7 @@ local SERVERS = {
 local FORMATTERS = {
   "stylua", -- Lua
   "shfmt", -- shell scripts
+  "prettier", -- web and data formats, in Prettier projects
 }
 
 ---Linters that a language server runs by itself, e.g. shellcheck for bashls's

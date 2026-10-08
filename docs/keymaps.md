@@ -64,6 +64,29 @@ A session is the set of open files, splits and tabs. One is saved per directory 
 
 ## Git
 
+### Status window
+
+`<leader>gs` works anywhere inside a git repository. The other keys work in the status window it opens; `g?` lists all of them.
+
+| Keys | Mode | Action |
+| --- | --- | --- |
+| `<leader>gs` | n | Open the status window (`git status`) on the right |
+| `=` | n | Toggle the inline diff of the file or hunk |
+| `dv` | n | Side-by-side diff of the file |
+| `s` | n, x | Stage the file, hunk or selected lines |
+| `u` | n, x | Unstage the file, hunk or selected lines |
+| `-` | n, x | Toggle staged |
+| `X` | n | Discard the change |
+| `<CR>` | n | Open the file |
+| `)` / `(` | n | Next / previous file or hunk |
+| `cc` | n | Commit; `:wq` saves the message and commits |
+| `cvc` | n | Commit, with the diff under the message |
+| `ca` | n | Amend the last commit |
+| `gq` | n | Close the status window |
+| `g?` | n | List every status window key |
+
+### Hunks
+
 These keys only exist in buffers for files inside a git repository.
 
 | Keys | Mode | Action |

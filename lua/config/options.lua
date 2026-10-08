@@ -49,9 +49,13 @@ opt.showmode = false
 -- Enable 24-bit RGB colors. Most modern colorschemes need this to look right.
 opt.termguicolors = true
 
--- Don't soft-wrap long lines. They run past the window edge and you scroll
--- horizontally, so each screen row is exactly one line of the file.
-opt.wrap = false
+-- Long lines soft-wrap at the window edge ('wrap' is on by default). Break
+-- them at a space or punctuation instead of in the middle of a word.
+opt.linebreak = true
+
+-- Indent the wrapped part of a line to match its start, so a wrapped line
+-- doesn't look like a new, unindented one.
+opt.breakindent = true
 
 -- Keep at least 8 lines visible above and below the cursor when scrolling, so
 -- you always see some context instead of editing at the window edge.

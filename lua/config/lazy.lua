@@ -1,10 +1,14 @@
 ---Bootstrap and configure lazy.nvim.
 ---
----On first run, clones lazy.nvim (stable branch) into `stdpath("data")/lazy/lazy.nvim`
----and exits on failure. Then imports each category folder under lua/plugins/ (one file per plugin).
+---On first run, clones lazy.nvim (stable branch) into
+---`stdpath("data")/lazy/lazy.nvim`, and exits if the clone fails. Then
+---imports each category folder under `lua/plugins/`, one file per plugin.
+---`:Lazy` opens the plugin manager window to install, update and check
+---plugins.
+---@see https://github.com/folke/lazy.nvim
 ---@see :help lazy.nvim-configuration
 
--- Bootstrap lazy.nvim
+-- Clone lazy.nvim on first run, so a new machine needs only this config.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -24,7 +28,7 @@ vim.opt.rtp:prepend(lazypath)
 ---@type LazyConfig
 local opts = {
   -- One import per category: lazy.nvim does not look inside subfolders of
-  -- lua/plugins/, so each folder is listed here.
+  -- `lua/plugins/`, so each folder is listed here.
   spec = {
     { import = "plugins.colorscheme" },
     { import = "plugins.ui" },
@@ -33,15 +37,26 @@ local opts = {
     { import = "plugins.treesitter" },
     { import = "plugins.lsp" },
   },
-  defaults = { lazy = false, version = false }, -- version = false: track latest commit, not tags
-  install = { colorscheme = { "catppuccin", "habamax" } }, -- used while installing; habamax is the built-in fallback
-  checker = { enabled = true, notify = false }, -- check for updates in the background, silently
+  -- `version = false`: track each plugin's latest commit, not its release
+  -- tags.
+  defaults = { lazy = false, version = false },
+  -- Colorscheme for the install window on first run. habamax ships with
+  -- Neovim, so it works before catppuccin is installed.
+  install = { colorscheme = { "catppuccin", "habamax" } },
+  -- Check for plugin updates in the background, without a notification.
+  -- `:Lazy` lists them.
+  checker = { enabled = true, notify = false },
   change_detection = { notify = false },
-  rocks = { enabled = false }, -- no plugin here needs luarocks; silences its :checkhealth error
-  ui = { border = "single" }, -- same as vim.o.winborder, which lazy.nvim doesn't read
+  -- No plugin here needs luarocks. Turning it off also silences its
+  -- `:checkhealth lazy` error.
+  rocks = { enabled = false },
+  -- Same border as 'winborder' (set in `lua/config/options.lua`), which
+  -- lazy.nvim doesn't read.
+  ui = { border = "single" },
   performance = {
     rtp = {
-      -- unused built-in runtime plugins, disabled for faster startup
+      -- Built-in runtime plugins this config doesn't use. Disabling them
+      -- makes startup faster.
       disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin" },
     },
   },

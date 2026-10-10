@@ -43,12 +43,12 @@ Oil shows a folder as a buffer. Edit the lines to create, rename, move or delete
 
 | Keys | Mode | Action |
 | --- | --- | --- |
-| `-` | n | Open the file explorer, or go to the parent folder inside it |
-| `<CR>` | n | Open the file or folder under the cursor |
+| `-` | n | Open the file explorer in a split on the right, or go to the parent folder inside it |
+| `<CR>` | n | Open the file or folder under the cursor; a file closes the explorer split |
 | `<C-x>` | n | Open the entry under the cursor in a horizontal split |
 | `<C-r>` | n | Reload the listing from disk |
 | `g.` | n | Toggle hidden files |
-| `q` | n | Close the explorer |
+| `q` | n | Close the explorer and its split |
 | `g?` | n | List every oil key |
 
 ## Sessions

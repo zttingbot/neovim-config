@@ -9,7 +9,6 @@
 return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  -- Load on the first :FzfLua command or keymap below, not at startup.
   cmd = "FzfLua",
   keys = {
     { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find files" },

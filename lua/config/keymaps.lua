@@ -1,7 +1,7 @@
 ---Plugin-independent keymaps.
 ---
----Plugin mappings belong in each spec's `keys` field (lua/plugins/<category>/*.lua) so lazy.nvim
----can load the plugin on first use.
+---Plugin mappings belong in each spec's `keys` field, in
+---`lua/plugins/<category>/*.lua`, so lazy.nvim loads the plugin on first use.
 
 ---@see vim.keymap.set
 local map = vim.keymap.set

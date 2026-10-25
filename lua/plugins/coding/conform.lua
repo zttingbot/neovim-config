@@ -12,7 +12,6 @@
 ---@type LazySpec
 return {
   "stevearc/conform.nvim",
-  -- Load on the first `:ConformInfo` or keymap below, not at startup.
   cmd = "ConformInfo",
   keys = {
     {

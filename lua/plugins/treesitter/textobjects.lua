@@ -43,7 +43,6 @@ end
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   branch = "main",
-  -- Keymaps are defined below, so the plugin loads on first use.
   keys = {
     select("af", "@function.outer", "Around function"),
     select("if", "@function.inner", "Inside function"),
@@ -76,7 +75,7 @@ return {
     -- Jump forward to the next text object when the cursor isn't inside one
     -- (e.g. `vif` before a function selects that function).
     select = { lookahead = true },
-    -- Record motions in the jumplist, so <C-o> jumps back.
+    -- Record motions in the jumplist, so `<C-o>` jumps back.
     move = { set_jumps = true },
   },
 }

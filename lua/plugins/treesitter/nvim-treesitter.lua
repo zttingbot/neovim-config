@@ -7,7 +7,7 @@
 ---
 ---Uses the `main` branch, the rewrite for Neovim 0.12+. Compiling parsers
 ---needs the tree-sitter CLI (tree-sitter-cli) and a C compiler; check both
----with :checkhealth nvim-treesitter.
+---with `:checkhealth nvim-treesitter`.
 ---@see https://github.com/nvim-treesitter/nvim-treesitter/tree/main
 ---@see :help nvim-treesitter
 ---@see :help treesitter
@@ -18,7 +18,7 @@
 ---
 ---Entries are language names, not filetypes (`tsx` for typescriptreact,
 ---`bash` for sh). To find the name for the current buffer:
----  :lua =vim.treesitter.language.get_lang(vim.bo.filetype)
+---  `:lua =vim.treesitter.language.get_lang(vim.bo.filetype)`
 ---Neovim already bundles c, lua, markdown, query, vim and vimdoc.
 local PARSERS = {
   -- Shell and config formats

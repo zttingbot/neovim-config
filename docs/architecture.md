@@ -18,7 +18,7 @@ flowchart TD
   after["after/lsp/*.lua"] -. overrides defaults .-> lsp
 ```
 
-[`init.lua`](../init.lua) requires the `config/` modules in the order shown. Options run first so plugins see the leader keys. Nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. [`tools.lua`](../lua/config/tools.lua) isn't in the chain: the LSP specs `require` it.
+[`init.lua`](../init.lua) requires the `config/` modules in the order shown. Options run first so plugins see the leader keys. Apart from `lazy.lua`, which bootstraps lazy.nvim, nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. [`tools.lua`](../lua/config/tools.lua) isn't in the chain: the LSP specs `require` it.
 
 The LSP pipeline, Treesitter and Formatting nodes each have their own section below.
 
@@ -28,7 +28,7 @@ The LSP pipeline, Treesitter and Formatting nodes each have their own section be
 ~/.config/nvim/
 ├── init.lua                  entry point: requires the lua/config/ modules in order
 ├── lua/
-│   ├── config/               editor setup that doesn't depend on any plugin
+│   ├── config/               editor setup that doesn't depend on any plugin (except lazy.lua)
 │   │   └── tools.lua         servers, formatters and linters to install
 │   └── plugins/
 │       └── <category>/       plugins grouped by what they do
@@ -51,7 +51,7 @@ Plugins load at startup unless the spec gives lazy.nvim a trigger to wait for:
 - `keys`: the first press of one of the spec's keymaps
 - `cmd`: the first use of one of the plugin's commands
 
-Plugins track their latest commit, not their release tags (`version = false`). `lazy-lock.json` records which commit is installed.
+Plugins track their latest commit, not their release tags (`version = false`). The exception is blink.cmp, pinned to its `1.*` releases because its main branch has to be compiled with cargo. `lazy-lock.json` records which commit is installed.
 
 ## LSP pipeline
 

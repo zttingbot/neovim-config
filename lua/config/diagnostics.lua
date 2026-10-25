@@ -28,18 +28,18 @@ vim.diagnostic.config({
   -- Nerd Font icons in the sign column, instead of the default E/W/I/H letters.
   signs = {
     text = {
-      [severity.ERROR] = " ",
-      [severity.WARN] = " ",
-      [severity.INFO] = " ",
+      [severity.ERROR] = " ",
+      [severity.WARN] = " ",
+      [severity.INFO] = " ",
       [severity.HINT] = "󰌵 ",
     },
   },
 
-  -- Full-message popup (<C-w>d, and after ]d / [d below). Its border comes from
-  -- vim.o.winborder in config/options.lua.
+  -- Full-message popup (`<C-w>d`, and after `]d` / `[d` below). Its border
+  -- comes from `vim.o.winborder` in `lua/config/options.lua`.
   float = { source = "if_many" },
 
-  -- ]d / [d also open the float, for messages too long for virtual text.
+  -- `]d` / `[d` also open the float, for messages too long for virtual text.
   jump = {
     ---@param diagnostic vim.Diagnostic?
     ---@param bufnr integer

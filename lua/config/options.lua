@@ -145,8 +145,8 @@ opt.sessionoptions = { "buffers", "curdir", "folds", "help", "tabpages", "winsiz
 -- Providers -------------------------------------------------------------------
 
 -- Turn off the remote-plugin providers. They let Neovim run plugins written in
--- Node, Perl, Python or Ruby (through pynvim and similar packages); every
--- plugin here is Lua, so none are needed. Without this, Neovim looks for each
+-- Node, Perl, Python or Ruby (through pynvim and similar packages); none of
+-- the plugins here needs one. Without this, Neovim looks for each
 -- one and `:checkhealth vim.provider` warns that they are missing. Editing
 -- those languages is unaffected: language servers and formatters are separate
 -- programs (see `lua/config/tools.lua`). The clipboard provider stays on.

@@ -1,210 +1,81 @@
 # Style
 
-How the Lua files in this config are written: file headers, comments and plugin specs. For how to make and commit a change, see [Contributing](CONTRIBUTING.md).
-
-The rules describe what the files already do. When a file and this page disagree, follow this page.
-
 ## Formatting
 
-[StyLua](https://github.com/JohnnyMorganz/StyLua) formats the code. Its settings, and the reason for each one, are in [`stylua.toml`](stylua.toml).
+[StyLua](https://github.com/JohnnyMorganz/StyLua) formats the code with [`stylua.toml`](stylua.toml): `<leader>cf` for the buffer or selection, or for the whole config:
 
-- Code wraps at 120 columns. StyLua does this.
-- Comments wrap at 80 columns. StyLua doesn't touch comments, so wrap them by hand.
-- Three kinds of comment line may run past 80 columns, because they can't be split: the summary line of a file header, a `---@see` line, and any other `---@` annotation.
+```sh
+~/.local/share/nvim/mason/bin/stylua ~/.config/nvim
+```
 
-## File header
+Wrap comments by hand at 80 columns. Header summaries and `---@` annotations may run longer.
 
-Every file starts with a header comment written with `---`:
+## Plugin example
+
+One file per plugin, named after its repository in lowercase kebab-case without `.nvim`: smart-splits.nvim is `smart-splits.lua`, blink.cmp is `blink-cmp.lua`. A few long names keep only the part that identifies the plugin, such as `lspconfig.lua` for nvim-lspconfig and `context.lua` for nvim-treesitter-context; catppuccin/nvim is `catppuccin.lua`.
 
 ```lua
----plugin-name: what it does.
+---fzf-lua: fuzzy finder for files, text, buffers and more.
 ---
----What the plugin adds, and why it is set up this way. Commands and keys the
----reader can use or check it with, such as `:PluginInfo`.
----
----A second paragraph, when there is more to say.
----@see https://github.com/owner/plugin-name
----@see :help plugin-name
+---`:FzfLua` with no arguments lists every picker.
+---@see https://github.com/ibhagwan/fzf-lua
+---@see :help fzf-lua
 
 ---@type LazySpec
 return {
+  "ibhagwan/fzf-lua",
+  cmd = "FzfLua",
+  keys = {
+    { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find files" },
+    { "<leader>fw", "<cmd>FzfLua grep_visual<CR>", mode = "x", desc = "Grep selection" },
+  },
+  opts = {
+    -- The preview has its own border, so set it too to match the picker.
+    winopts = { border = "single", preview = { border = "single" } },
+  },
+}
 ```
 
-- The first line is a one-line summary that ends with a period. It stays on one line.
-- The second line is an empty `---`. Paragraphs in the body are separated the same way.
-- The body says what the file adds, why it is set up this way, and how to use or check it.
-- `---@see` lines come last, with no empty line before them. Put the repository URL first, then `:help` topics, then any other link, such as a documentation page.
-- Leave one empty line after the header. `---@type` goes directly above `return`.
+- Other headers say what belongs in the folder (category `init.lua`), what the module sets up (`lua/config/`), or which server it overrides (`after/lsp/`).
+- Field order, skipping unused ones:
+  - Source: repository, `name`, `dependencies`, `branch`, `version`
+  - Loading: `lazy`, `priority`, `event`, `ft`, `cmd`, `keys`
+  - Setup: `build`, `opts`, `config`
+- Comment on loading only when the trigger hides a constraint, such as a colorscheme that must load first.
+- Leave out options that keep their default. Use `config` only when setup needs more than `setup(opts)`.
 
-The summary line depends on the kind of file:
+## Comments and notation
 
-| File | Summary line |
+- Comment on reasons, constraints and surprises, like the `preview` comment above, not on what the code says.
+- Use plain words and explain unfamiliar terms. Name a plugin only when its identity matters.
+- Explain shared behavior once, above the block; link to [Architecture](docs/architecture.md) when it spans files.
+- Keep changing lists in code, not in comments.
+- Use `---` for file headers and documented functions, constants and autocommands; `--` for everything else.
+- Trailing comments are only for short labels: `"taplo", -- TOML`.
+
+In prose and comments, write these as shown:
+
+| Item | Example |
 | --- | --- |
-| Plugin spec | `---plugin-name: what it does.` |
-| Category `init.lua` | `---<Category> plugins: what belongs in the folder.` |
-| Module in `lua/config/` | `---What it sets up, no plugin dependencies.` |
-| File in `after/lsp/` | `---<server> overrides, merged over nvim-lspconfig's lsp/<server>.lua.` |
+| Key | `` `<leader>cf` `` |
+| Ex or shell command | `` `:ConformInfo` ``, `` `git add -p` `` |
+| Lua name, event or register | `` `opts` ``, `` `FileType` ``, `` `+` `` |
+| Path from the config root | `` `lua/config/tools.lua` `` |
+| Vim option | `'runtimepath'` |
+| String value | `"single"` |
+| Plugin, tool or language | fzf-lua, StyLua, Lua |
 
-## Comments
+## Keymaps and naming
 
-### `---` or `--`
-
-Use `---` for:
-
-- the file header
-- LuaCATS annotations, such as `---@type`, `---@param` and `---@see`
-- the doc comment of a declaration: a local function, a module-level constant, an autocommand or a `config` function
-
-Use `--` for everything else: a setting, a table entry, a statement.
+Plugin keymaps go in `keys`, as above. Keymaps only for buffers a plugin attached to go in its `on_attach`, buffer-local:
 
 ```lua
----Briefly highlight the yanked region.
-vim.api.nvim_create_autocmd("TextYankPost", {
+-- `<leader>hs`: stage the hunk under the cursor; press it again to unstage.
+vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
 ```
 
-```lua
-  -- Only needed once typing starts.
-  event = "InsertEnter",
-```
-
-### What a comment says
-
-- **Say why, not what.** Give the reason for the setting, what would happen without it, or the default it changes. Commands and keys are the exception; see [Explaining commands and keys](#explaining-commands-and-keys).
-
-  ```lua
-  -- Good: the reason and the consequence.
-  -- Always show the sign column. Otherwise it appears and disappears as signs
-  -- come and go, shifting the text sideways.
-  opt.signcolumn = "yes"
-
-  -- Bad: repeats the code.
-  -- Set signcolumn to yes.
-  opt.signcolumn = "yes"
-  ```
-
-- **Write for a reader who doesn't know the plugin.** Use plain words. Explain a term the first time it appears, in parentheses: "the next changed block (hunk)".
-- **Never list the current members of a set that grows**, such as the plugins in a folder or the servers in an exclude list. Adding an entry should never mean editing a comment. When a comment needs an example, keep it open-ended: "e.g. stylua" or "a, b, ...".
-- **Name a role, not a plugin, when the role is enough**: "split navigation", "the completion menu". Replacing that plugin then needs no comment edit. Name the plugin when the comment sends the reader to its file.
-
-### Explaining commands and keys
-
-A command or a key is the exception to "say why, not what". The reader can't guess what it does, so say it.
-
-- Describe the result the reader sees, not the function that runs: "stage the hunk under the cursor", not "calls stage_hunk".
-- Explain a command in the file header, in one sentence: the command, then a verb in the present tense.
-
-  ```lua
-  ---`:PluginInfo` shows which tools apply to the current buffer and whether
-  ---they are installed.
-  ```
-
-- Explain a key in a comment above its keymap. Start with the key and a colon:
-
-  ```lua
-  -- `<leader>hs`: stage the hunk under the cursor, like `git add -p` for just
-  -- that block. Press it again on a staged hunk to unstage it.
-  ```
-
-- When a shell or Ex command does the same thing, name it in backticks. When the way back isn't obvious, say how to undo or close it.
-- Skip the comment when the keymap's `desc` already says everything, as in a list of pickers.
-- Explain only the commands and keys the reader will use. When the plugin can list the rest itself, point to that instead: "Press `` `g?` `` to list all its shortcuts."
-- List the keys a plugin sets by itself, such as a preset, in the file header as pairs of key and action: `` `<C-y>` accept, `<C-e>` close ``.
-
-### How a comment is written
-
-- Put the comment on its own line, above what it explains, at the same indent. Write full sentences: a capital first letter and a period at the end.
-- A trailing comment, on the same line as the code, is a short phrase with no capital and no period:
-
-  ```lua
-  "taplo", -- TOML
-  ```
-
-- A comment about one key, value or call starts with it, then a colon, then lowercase:
-
-  ```lua
-  -- `<leader>hS`: stage every change in the file (`git add <file>`).
-  -- pcall: the column may be past the end of the line.
-  ```
-
-- A comment that explains several lines goes once, above the first of them.
-- Write `...`, not `…`.
-
-### Notation
-
-| Thing | Written as | Example |
-| --- | --- | --- |
-| Key or keys typed in a row | backticks, Vim notation | `` `<C-h>` ``, `` `]c` ``, `` `daf` `` |
-| Ex command | backticks, leading colon | `` `:ConformInfo` `` |
-| Shell command | backticks | `` `git add -p` `` |
-| Lua code, or a name from it | backticks | `` `opts` ``, `` `clear = true` `` |
-| Another file | backticks, path from the config root | `` `lua/plugins/lsp/lazydev.lua` `` |
-| Vim option | single quotes | `'runtimepath'` |
-| String value | double quotes | `"single"` |
-
-### Backticks
-
-Backticks mean inline code, as in Markdown. lua_ls renders `---` comments as Markdown, Neovim's own Lua docstrings are written this way, and `:help help-writing` asks for backticks around any technical term or symbol.
-
-- Put them around anything the reader could type or find in a file, exactly as written: a key, an Ex or shell command, Lua code or a name from it, a file path, an event, a register.
-- Two things keep Vim's notation instead: an option goes in single quotes and a string value in double quotes.
-- A key always takes them, even at the start of a keymap comment. A Markdown renderer can read a bare `<leader>` as an HTML tag and drop it.
-- Don't use them for the name of a plugin, a tool or a language, such as fzf-lua, StyLua or Lua, or to emphasize a word.
-- One notation per thing: no backticks around a quoted option or a quoted string.
-
-### Dividers and groups
-
-- Split a long file or a long function into sections with a divider: the title, then dashes up to column 80. Leave an empty line above and below it.
-
-  ```lua
-  -- Search ----------------------------------------------------------------------
-  ```
-
-- Group the entries of a list under a short label with no period. Leave an empty line between groups.
-
-  ```lua
-  -- Shell and config formats
-  "bash",
-  "json",
-
-  -- Programming languages
-  "python",
-  ```
-
-- To describe several values at once, use an aligned table, indented under the line it explains:
-
-  ```lua
-  --   name    what it is for
-  --   other   what it is for, continued on the next line when it is
-  --           too long for one
-  ```
-
-## Plugin specs
-
-- One file per plugin, and one spec per file. Name the file after the plugin, in kebab-case, without the `.nvim` suffix.
-- Write the fields in this order:
-  1. Source: the repository, then `name`, `dependencies`, `branch`, `version`.
-  2. Loading: `lazy`, `priority`, `event`, `ft`, `cmd`, `keys`.
-  3. Setup: `build`, `opts`, `config`.
-- Every spec says how it loads, and a comment gives the reason:
-
-  ```lua
-  -- Load on the first `:PluginInfo` or keymap below, not at startup.
-  cmd = "PluginInfo",
-  ```
-
-- Use `opts`. Use `config` only when setup needs more than `setup(opts)`.
-- Annotate the parameters of a callback with `---@param`.
-
-## Keymaps
-
-- Put a plugin's keymaps in the spec's `keys` field, so the first press loads the plugin.
-- When a keymap should only exist in the buffers a plugin attached to, set it in the plugin's `on_attach` and make it buffer-local.
-- Give every keymap a `desc`: sentence case, no period, naming the action, for example `"Find files"`.
-- Write visual mode as `"x"`, not `"v"`.
-- When a keymap takes a key away from a plugin or from Vim, the comment says why the key is needed, and where the action it held went.
-- For how to describe what a key does, see [Explaining commands and keys](#explaining-commands-and-keys).
-
-## Naming
-
-- A module-level list is a local in `UPPER_SNAKE_CASE`, with a `---` doc comment that says what adding an entry does.
-- Name an augroup `user_<area>` and create it with `clear = true`. Give every autocommand a `desc`.
+- Comment a keymap only when `desc` needs context, such as how to undo it or where a key it replaced went. Describe what the user sees, not the function.
+- Keymaps that need no plugin go in `lua/config/keymaps.lua`. Update [`docs/keymaps.md`](docs/keymaps.md) when keymaps change.
+- In a plugin's header, name the command that lists its keys and any unusual behavior. The full key list lives in `docs/keymaps.md`.
+- Use `snake_case` for locals and functions, `UPPER_SNAKE_CASE` for module-level lists.
+- Name augroups `user_<area>`, created with `clear = true`. Give every autocommand a `desc`.

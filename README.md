@@ -43,8 +43,6 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
 
 ## Documentation
 
-- [Architecture](docs/architecture.md): how the config starts up, loads plugins and wires up language servers.
+- [Architecture](docs/architecture.md): how the config starts up, loads plugins and wires up language servers, and where to make common changes.
 - [Keymaps](docs/keymaps.md): every shortcut, grouped by task.
-- [Extending](docs/extending.md): add plugins, language servers, formatters and parsers.
-- [Style](STYLE.md): how comments and plugin specs are written.
-- [Contributing](CONTRIBUTING.md): formatting, changes and commit messages.
+- [Style](STYLE.md): how the Lua files are written.

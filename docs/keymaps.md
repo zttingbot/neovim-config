@@ -122,10 +122,32 @@ These keys only exist in buffers for files inside a git repository.
 | `<leader>A` | n | Swap parameter with previous |
 | `<leader>cf` | n, x | Format buffer or selection |
 | `<M-e>` | i | Fast wrap: move the closing bracket or quote after the next word or expression |
+| `<BS>` | i | Between an empty pair: delete both characters |
+| `<CR>` | i | Between brackets: open an indented block |
+
+With `|` as the cursor:
+
+```text
+<leader>a      f(|a, b)    →  f(b, a)
+<M-e>$         (|foobar    →  (|foobar)
+<BS>           (|)         →  |
+```
+
+`<M-e>` puts a letter at each place the closing bracket can go: press one to pick it, or `$` for the end of the line.
 
 ## Surround
 
-A surround is the pair around text: brackets, quotes, a tag or a function call. `{char}` names the pair, for example `)` or `"`. `t` asks for an HTML tag and `f` for a function name.
+A surround is the pair around text: brackets, quotes, a tag or a function call. `{char}` names the pair: `)`, `"`, `t` for an HTML tag or `f` for a function call. With the cursor on `word`:
+
+```text
+ysiw)          word      →  (word)
+cs)"           (word)    →  "word"
+ds"            "word"    →  word
+ysiwtb<CR>     word      →  <b>word</b>
+ysiwflen<CR>   word      →  len(word)
+```
+
+An opening bracket adds spaces inside: `ysiw(` gives `( word )`.
 
 | Keys | Mode | Action |
 | --- | --- | --- |

@@ -10,6 +10,9 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
 - [fzf](https://github.com/junegunn/fzf); [ripgrep](https://github.com/BurntSushi/ripgrep) and [fd](https://github.com/sharkdp/fd) are optional but faster
 - The [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter/tree/master/crates/cli) and a C compiler, to build parsers
 - A clipboard provider: wl-clipboard on Wayland, xclip or xsel on X11
+- curl or wget, unzip, tar and gzip, which Mason uses to download and unpack tools
+- Node.js with npm, for the Bash, JSON, YAML, HTML, CSS and TypeScript servers and Prettier
+- Python 3 with the `venv` module, for basedpyright
 
 ## Install
 
@@ -34,7 +37,7 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
 
    The first start installs lazy.nvim and every plugin. Language servers, formatters, linters and treesitter parsers then install in the background.
 
-4. When the installs finish, restart Neovim and run `:checkhealth` to find anything missing.
+4. When the installs finish, restart Neovim and run `:checkhealth` to find anything missing. `:checkhealth mason` shows tool-install problems.
 
 ## Update
 

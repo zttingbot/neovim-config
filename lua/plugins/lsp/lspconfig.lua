@@ -12,10 +12,8 @@
 ---that are both a formatter and a server (e.g. stylua) are never started as
 ---servers unless they are in the servers list.
 ---
----Keymaps are Neovim's defaults: `K` hover, `grn` rename, `gra` code action,
----`grr` references, `gri` implementation, `grt` type definition, `gO` document
----symbols, `[d` / `]d` diagnostics, `<C-s>` signature help (insert mode).
----`:checkhealth vim.lsp` shows which servers are attached.
+---Keymaps are Neovim's defaults (`:help lsp-defaults`), listed in
+---`docs/keymaps.md`. `:checkhealth vim.lsp` shows which servers are attached.
 ---@see https://github.com/neovim/nvim-lspconfig
 ---@see :help lsp
 
@@ -25,9 +23,6 @@ return {
   -- mason's `setup()` puts its `bin/` on `$PATH`, which must happen before a
   -- server starts.
   dependencies = { "mason-org/mason.nvim" },
-  -- Load at startup, so a file opened with `nvim file` gets its server: a
-  -- server enabled after the buffer's `FileType` event doesn't attach to it.
-  lazy = false,
   ---Enable every listed server. A server starts when a buffer of one of its
   ---filetypes opens.
   config = function()

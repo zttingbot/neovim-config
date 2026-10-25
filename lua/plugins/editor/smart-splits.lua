@@ -1,8 +1,7 @@
 ---smart-splits.nvim: move between and resize Neovim splits and tmux panes with the same keys.
 ---
----`<C-h>`, `<C-j>`, `<C-k>` and `<C-l>` move to the split in that direction;
----at the edge of Neovim they move to the neighbouring tmux pane instead.
----`<A-h>`, `<A-j>`, `<A-k>` and `<A-l>` resize the same way. The matching tmux
+---At the edge of Neovim, the move keys go to the neighbouring tmux pane
+---instead. The keys are listed in `docs/keymaps.md`; the matching tmux
 ---bindings live in `~/.config/tmux/tmux.conf`.
 ---
 ---Since v3 the plugin only handles Neovim splits; talking to tmux is the job

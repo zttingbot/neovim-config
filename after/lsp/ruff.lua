@@ -2,12 +2,12 @@
 ---
 ---The ruff server runs alongside the buffer's main Python server for its
 ---lint diagnostics and quick fixes only. Formatting stays with conform
----(ruff_format in plugins/coding/conform.lua), and hover stays with the main
----server, as Ruff's editor docs recommend.
+---(`ruff_format` in `lua/plugins/coding/conform.lua`), and hover stays with
+---the main server, as Ruff's editor docs recommend.
 ---
----The capabilities are cleared in on_init, which runs before the client
+---The capabilities are cleared in `on_init`, which runs before the client
 ---attaches: Neovim reads them on attach to decide whether to set 'formatexpr'
----and the K hover map, so a server without them sets neither. ruff would
+---and the `K` hover map, so a server without them sets neither. ruff would
 ---otherwise register formatting again after startup (dynamic registration),
 ---so the client also tells it that it doesn't accept that for formatting.
 ---@see :help lsp-config

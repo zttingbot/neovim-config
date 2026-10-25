@@ -15,9 +15,9 @@
 ---@type LazySpec
 return {
   "folke/persistence.nvim",
-  -- Load when a file is opened, which is when there is something to save, or
-  -- on the first keymap below.
-  event = "BufReadPre",
+  -- Load when a file is opened or a new one is started (`nvim new.txt`), which
+  -- is when there is something to save, or on the first keymap below.
+  event = { "BufReadPre", "BufNewFile" },
   keys = {
     -- `<leader>qs`: reopen the files and splits saved for this directory.
     {
@@ -27,7 +27,6 @@ return {
       end,
       desc = "Restore session",
     },
-    -- `<leader>qS`: pick one of the saved sessions from a list.
     {
       "<leader>qS",
       function()

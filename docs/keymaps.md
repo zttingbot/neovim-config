@@ -41,6 +41,8 @@ The same keys move between Neovim splits and tmux panes: at the edge of Neovim t
 
 Oil shows a folder as a buffer. Edit the lines to create, rename, move or delete files, then save with `:w` to apply the changes.
 
+`<CR>` on a file and `q` close the split only when `-` opened it. In a folder opened with `nvim .`, `:e .` or `:Oil`, `<CR>` opens the file in place and `q` brings back the previous buffer.
+
 | Keys | Mode | Action |
 | --- | --- | --- |
 | `-` | n | Open the file explorer in a split on the right, or go to the parent folder inside it |

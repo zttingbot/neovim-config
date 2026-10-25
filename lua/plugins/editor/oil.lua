@@ -2,17 +2,18 @@
 ---
 ---Opens a directory as a normal buffer: create, rename, move and delete files
 ---by editing lines, then apply the changes with `:w`. Replaces netrw.
----Press `g?` inside an oil buffer to list all its shortcuts.
+---Dotfiles are hidden; `g.` shows them. Press `g?` inside an oil buffer to
+---list all its shortcuts.
 ---@see https://github.com/stevearc/oil.nvim
 ---@see :help oil
 
----Whether oil shares the tab with another normal (non-floating) window, as
----when `-` opens it in a split.
-local function in_split()
+---Whether the current window is the explorer split that `-` opened, and
+---another normal (non-floating) window is left to take its place.
+local function in_explorer_split()
   local wins = vim.tbl_filter(function(win)
     return vim.api.nvim_win_get_config(win).relative == ""
   end, vim.api.nvim_tabpage_list_wins(0))
-  return #wins > 1
+  return vim.w.oil_explorer == true and #wins > 1
 end
 
 ---@type LazySpec
@@ -27,15 +28,22 @@ return {
     -- instead of replacing the current buffer. Inside oil the same key is
     -- oil's own "go to parent" map, so pressing it again goes up. `q` closes
     -- the split.
-    { "-", "<cmd>botright vsplit | Oil<CR>", desc = "Open file explorer" },
+    {
+      "-",
+      function()
+        vim.cmd("botright vsplit")
+        -- Mark the split so `q` and `<CR>` below close only this window, not
+        -- one oil took over with `:e .` or the one under a floating oil.
+        vim.w.oil_explorer = true
+        require("oil").open()
+      end,
+      desc = "Open file explorer",
+    },
   },
   opts = {
-    default_file_explorer = true,
     -- Don't ask for confirmation when the only changes are new files or
     -- folders.
     skip_confirm_for_simple_edits = true,
-    -- Icon and name only (the default); no size, permissions or mtime columns.
-    columns = { "icon" },
     -- Merged over oil's defaults, such as `signcolumn = "no"` and
     -- `conceallevel = 3`.
     win_options = {
@@ -44,17 +52,13 @@ return {
       -- The cursor line is the only indicator of the selected entry.
       cursorline = true,
     },
-    view_options = {
-      -- Hide dotfiles; `g.` shows them again.
-      show_hidden = false,
-    },
     keymaps = {
-      -- `q`: close oil, like help and `:Lazy`. In a split (how `-` opens it)
-      -- the split closes too; otherwise, as with `nvim .`, the previous buffer
+      -- `q`: close oil, like help and `:Lazy`. In the split `-` opened, the
+      -- split closes too; otherwise, as with `nvim .`, the previous buffer
       -- comes back.
       ["q"] = {
         callback = function()
-          if in_split() then
+          if in_explorer_split() then
             vim.cmd.close()
           else
             require("oil.actions").close.callback()
@@ -63,21 +67,26 @@ return {
         desc = "Close oil",
         mode = "n",
       },
-      -- `<CR>`: open the entry under the cursor. From a split, a file closes
-      -- the split and opens in the window that is left, so it fills the
-      -- screen; a directory opens inside the split. Going through `oil.select`
-      -- keeps its "Save changes?" prompt for unsaved edits.
+      -- `<CR>`: open the entry under the cursor. From the split `-` opened, a
+      -- file closes the split and opens in the window that is left, so it
+      -- fills the screen; a directory, or a symlink to one, opens inside the
+      -- split. Going through `oil.select` keeps its "Save changes?" prompt for
+      -- unsaved edits.
       ["<CR>"] = {
         callback = function()
           local oil = require("oil")
           local entry = oil.get_cursor_entry()
-          if not in_split() or not entry or entry.type == "directory" then
+          -- `is_directory` is the check `oil.select` makes, so both agree on
+          -- what opens inside the split.
+          if not in_explorer_split() or not entry or require("oil.util").is_directory(entry) then
             return oil.select()
           end
+          -- Closed by id: the current window may change before the callback.
+          local explorer = vim.api.nvim_get_current_win()
           oil.select({
             ---@param bufnr integer
             handle_buffer_callback = function(bufnr)
-              vim.cmd.close()
+              vim.api.nvim_win_close(explorer, false)
               vim.cmd.buffer(bufnr)
             end,
           })

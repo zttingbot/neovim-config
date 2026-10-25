@@ -106,7 +106,7 @@ These keys only exist in buffers for files inside a git repository.
 | `<leader>hb` | n | Blame line |
 | `<leader>hB` | n | Toggle line blame |
 | `<leader>hd` | n | Diff against index |
-| `<leader>hD` | n | Diff against last commit |
+| `<leader>hD` | n | Diff against HEAD~1 |
 | `<leader>hq` | n | Hunks to quickfix |
 | `<leader>hQ` | n | Repo hunks to quickfix |
 | `ih` | o, x | Select hunk |

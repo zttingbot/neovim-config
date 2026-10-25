@@ -14,9 +14,6 @@ return {
   event = "VeryLazy",
   opts = {
     options = {
-      -- "auto" picks the lualine theme named after the active colorscheme
-      -- (catppuccin-mocha), so it follows flavour changes by itself.
-      theme = "auto",
       -- One statusline across the bottom instead of one per window.
       globalstatus = true,
       -- Flat look: no glyphs between sections or between items inside a

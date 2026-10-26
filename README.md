@@ -44,6 +44,10 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
 - `:Lazy update` updates plugins and writes the new commits to `lazy-lock.json`. Commit that file to pin the same versions on every machine.
 - `:MasonToolsUpdate` updates language servers, formatters and linters.
 
+## Add a plugin
+
+In Claude Code, run `/add-plugin <owner/repo>`, e.g. `/add-plugin folke/trouble.nvim`, or just ask it to add the plugin.
+
 ## Documentation
 
 - [Architecture](docs/architecture.md): how the config starts up, loads plugins and wires up language servers, and where to make common changes.

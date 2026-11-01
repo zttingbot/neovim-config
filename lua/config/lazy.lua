@@ -36,6 +36,7 @@ local opts = {
     { import = "plugins.coding" },
     { import = "plugins.treesitter" },
     { import = "plugins.lsp" },
+    { import = "plugins.debug" },
   },
   -- `version = false`: track each plugin's latest commit, not its release
   -- tags.

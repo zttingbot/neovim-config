@@ -5,15 +5,16 @@ description: Add a Neovim plugin to this config. It writes the plugin's spec, wi
 
 # Add a plugin
 
-1. Run `git status`, so you can tell your changes from ones the user already had.
+1. Run `git status`, so you can tell your changes from ones the user already had. If `lazy-lock.json` already has uncommitted changes, copy it now: any Neovim start after the spec exists installs the plugin and changes the file.
 2. Read the plugin's README and default options upstream, or in `~/.local/share/nvim/lazy/<lazy-name>/` if it's installed. If a plugin in `lua/plugins/` already covers part of the same job, ask the user whether to replace it or keep both; never remove a plugin on your own. If both stay, make sure their keys don't clash.
 3. Write `lua/plugins/<category>/<file>.lua` as in [STYLE.md's plugin example](../../../STYLE.md#plugin-example), setting only options that differ from the defaults. Use the category whose `init.lua` header fits; a new category also needs an import in `lua/config/lazy.lua`.
 4. Wire up what the plugin needs:
    - **Colorscheme:** catppuccin's integration keys are the file names in `~/.local/share/nvim/lazy/catppuccin/lua/catppuccin/groups/integrations/` (fzf-lua is `fzf`). If one matches, add it to `integrations` in `lua/plugins/colorscheme/catppuccin.lua`.
    - **Parser:** add it to `PARSERS` in `lua/plugins/treesitter/nvim-treesitter.lua`.
-   - **External program:** add it to Requirements in `README.md`.
+   - **Program mason can install:** add it to its list in `lua/config/tools.lua`, then install it with `nvim --headless "+Lazy! load mason-tool-installer.nvim" "+MasonToolsInstallSync" +qa`.
+   - **Other external program:** add it to Requirements in `README.md`.
 5. Add its keys to `docs/keymaps.md`, next to related ones, after checking each key is free.
-6. Install it with `nvim --headless "+Lazy! install" +qa`. `git diff lazy-lock.json` should only add entries for the plugins you added (and their dependencies), and only drop entries for specs you deleted.
+6. Install it with `nvim --headless "+Lazy! install" +qa`. `git diff lazy-lock.json` should only add entries for the plugins you added (and their dependencies), and only drop entries for specs you deleted. If you copied the file in step 1, compare against the copy instead.
 7. Run the checks, then fix and rerun until they print `OK`:
 
    ```sh

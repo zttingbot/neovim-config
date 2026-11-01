@@ -185,17 +185,24 @@ Neovim's default keymaps, active when a language server is attached.
 
 ## Debug
 
-Debugging works in Python files. Set a breakpoint, start with `<leader>dc`, then step or continue. The script runs in a terminal split below. In the variables window, `<CR>` expands an entry. A `○` in the sign column marks a breakpoint the debugger couldn't set. [`nvim-dap-python.lua`](../lua/plugins/debug/nvim-dap-python.lua) explains which Python runs the script.
+Debugging works for Python. Set a breakpoint, start with `<leader>dc`, then step or continue. The script runs in a terminal split below. In the variables window, `<CR>` expands an entry. A `○` in the sign column marks a breakpoint the debugger couldn't set. [`nvim-dap-python.lua`](../lua/plugins/debug/nvim-dap-python.lua) explains which Python runs the script.
+
+`<leader>dl` reruns the same module after `<leader>dm`, but whichever file is open after `<leader>dc`.
 
 | Keys | Mode | Action |
 | --- | --- | --- |
 | `<leader>db` | n | Toggle breakpoint |
+| `<leader>dB` | n | Set a breakpoint that stops only when a condition is true |
 | `<leader>dc` | n | Start debugging the file, or continue to the next breakpoint |
+| `<leader>dm` | n | Debug a Python module, by name |
+| `<leader>dM` | n | Debug a Python module, including library code |
+| `<leader>dl` | n | Rerun the last session |
 | `<leader>dn` | n | Step over |
 | `<leader>di` | n | Step into |
 | `<leader>do` | n | Step out |
 | `<leader>dt` | n | Stop debugging |
 | `<leader>dv` | n | Toggle the variables window |
+| `<leader>df` | n | Toggle the call stack window |
 | `<leader>de` | n | Evaluate the expression under the cursor |
 | `<leader>de` | x | Evaluate the selection |
 | `<leader>dr` | n | Toggle the debug console, for typing expressions |

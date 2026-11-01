@@ -47,6 +47,7 @@ return {
 ## Comments and notation
 
 - Comment on reasons, constraints and surprises, like the `preview` comment above, not on what the code says.
+- Don't open a comment with the key, command or field the code below it already shows. Name it only when the code doesn't show it, like `<M-e>` above `fast_wrap = {}`, or when the code shows several and the comment is about one.
 - Use plain words and explain unfamiliar terms. Name a plugin only when its identity matters.
 - Explain shared behavior once, above the block; link to [Architecture](docs/architecture.md) when it spans files.
 - Keep changing lists in code, not in comments.
@@ -70,7 +71,7 @@ In prose and comments, write these as shown:
 Plugin keymaps go in `keys`, as above. Keymaps only for buffers a plugin attached to go in its `on_attach`, buffer-local:
 
 ```lua
--- `<leader>hs`: stage the hunk under the cursor; press it again to unstage.
+-- Stage the hunk under the cursor; press the key again to unstage.
 vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
 ```
 

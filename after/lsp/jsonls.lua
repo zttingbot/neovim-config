@@ -23,8 +23,8 @@ return {
   ---@param _ lsp.InitializeParams
   ---@param config vim.lsp.ClientConfig
   before_init = function(_, config)
-    -- `@as table`: `settings` is typed as any LSP value, so without the cast
-    -- lua_ls rejects adding a `schemas` field to it.
+    -- `settings` is typed as any LSP value, so without the cast lua_ls rejects
+    -- adding a `schemas` field to it.
     local json = config.settings.json --[[@as table]]
     json.schemas = require("schemastore").json.schemas()
   end,

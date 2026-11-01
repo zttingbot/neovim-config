@@ -24,7 +24,7 @@ return {
   -- `:e dir/`) before netrw does.
   lazy = false,
   keys = {
-    -- `-`: open the file explorer in a split on the right, like `<leader>gs`,
+    -- Open the file explorer in a split on the right, like `<leader>gs`,
     -- instead of replacing the current buffer. Inside oil the same key is
     -- oil's own "go to parent" map, so pressing it again goes up. `q` closes
     -- the split.
@@ -53,9 +53,9 @@ return {
       cursorline = true,
     },
     keymaps = {
-      -- `q`: close oil, like help and `:Lazy`. In the split `-` opened, the
-      -- split closes too; otherwise, as with `nvim .`, the previous buffer
-      -- comes back.
+      -- Close oil, like help and `:Lazy`. In the split `-` opened, the split
+      -- closes too; otherwise, as with `nvim .`, the previous buffer comes
+      -- back.
       ["q"] = {
         callback = function()
           if in_explorer_split() then
@@ -67,11 +67,11 @@ return {
         desc = "Close oil",
         mode = "n",
       },
-      -- `<CR>`: open the entry under the cursor. From the split `-` opened, a
-      -- file closes the split and opens in the window that is left, so it
-      -- fills the screen; a directory, or a symlink to one, opens inside the
-      -- split. Going through `oil.select` keeps its "Save changes?" prompt for
-      -- unsaved edits.
+      -- Open the entry under the cursor. From the split `-` opened, a file
+      -- closes the split and opens in the window that is left, so it fills the
+      -- screen; a directory, or a symlink to one, opens inside the split. Going
+      -- through `oil.select` keeps its "Save changes?" prompt for unsaved
+      -- edits.
       ["<CR>"] = {
         callback = function()
           local oil = require("oil")
@@ -94,14 +94,12 @@ return {
         desc = "Open entry",
         mode = "n",
       },
-      -- `<C-h>` and `<C-l>` are removed so split navigation works inside oil:
-      -- oil's buffer-local maps would win over the global ones. The actions
-      -- they held move to the two keys below.
+      -- Removed so split navigation works inside oil: oil's buffer-local maps
+      -- would win over the global ones. The actions these keys held move to the
+      -- two keys below.
       ["<C-h>"] = false,
       ["<C-l>"] = false,
-      -- `<C-x>`: open the entry under the cursor in a horizontal split.
       ["<C-x>"] = { "actions.select", opts = { horizontal = true } },
-      -- `<C-r>`: reload the listing from disk.
       ["<C-r>"] = "actions.refresh",
     },
   },

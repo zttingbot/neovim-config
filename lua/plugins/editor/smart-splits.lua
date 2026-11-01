@@ -29,8 +29,8 @@ return {
     { "<C-h>", "<cmd>SmartCursorMoveLeft<CR>", desc = "Go to left split/pane" },
     { "<C-j>", "<cmd>SmartCursorMoveDown<CR>", desc = "Go to lower split/pane" },
     { "<C-k>", "<cmd>SmartCursorMoveUp<CR>", desc = "Go to upper split/pane" },
-    -- `<C-l>`: replaces Neovim's default, which clears the search highlight
-    -- and redraws the screen. `<Esc>` clears the highlight instead
+    -- Replaces Neovim's default, which clears the search highlight and redraws
+    -- the screen. `<Esc>` clears the highlight instead
     -- (`lua/config/keymaps.lua`), and `:redraw!` redraws.
     { "<C-l>", "<cmd>SmartCursorMoveRight<CR>", desc = "Go to right split/pane" },
 
@@ -41,9 +41,9 @@ return {
     { "<A-l>", "<cmd>SmartResizeRight<CR>", desc = "Resize split right" },
   },
   opts = {
-    -- `mux.backend`: v3 neither detects nor ships one. Without it, the keys
-    -- stop at Neovim's edge and tmux never learns that this pane runs Neovim.
-    -- Outside tmux that is the right behavior, and setting none there avoids the
+    -- v3 neither detects nor ships a backend. Without one, the keys stop at
+    -- Neovim's edge and tmux never learns that this pane runs Neovim. Outside
+    -- tmux that is the right behavior, and setting none there avoids the
     -- plugin's warning that no backend was detected.
     mux = { backend = vim.env.TMUX and "smart-splits-backend-tmux" },
   },

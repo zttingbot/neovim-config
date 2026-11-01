@@ -7,15 +7,34 @@
 ---@see https://github.com/mfussenegger/nvim-dap
 ---@see :help dap.txt
 
----The variables window, kept so `<leader>dv` closes the one it opened.
+-- Keep each sidebar so its key closes the window it opened.
 local variables_window
+local frames_window
 
 ---@type LazySpec
 return {
   "mfussenegger/nvim-dap",
   keys = {
     { "<leader>db", "<cmd>DapToggleBreakpoint<CR>", desc = "Toggle breakpoint" },
+    {
+      "<leader>dB",
+      function()
+        vim.ui.input({ prompt = "Condition: " }, function(condition)
+          if condition and condition ~= "" then
+            require("dap").set_breakpoint(condition)
+          end
+        end)
+      end,
+      desc = "Set conditional breakpoint",
+    },
     { "<leader>dc", "<cmd>DapContinue<CR>", desc = "Start or continue debugging" },
+    {
+      "<leader>dl",
+      function()
+        require("dap").run_last()
+      end,
+      desc = "Rerun last session",
+    },
     { "<leader>dn", "<cmd>DapStepOver<CR>", desc = "Step over" },
     { "<leader>di", "<cmd>DapStepInto<CR>", desc = "Step into" },
     { "<leader>do", "<cmd>DapStepOut<CR>", desc = "Step out" },
@@ -28,6 +47,15 @@ return {
         variables_window.toggle()
       end,
       desc = "Toggle variables",
+    },
+    {
+      "<leader>df",
+      function()
+        local widgets = require("dap.ui.widgets")
+        frames_window = frames_window or widgets.sidebar(widgets.frames)
+        frames_window.toggle()
+      end,
+      desc = "Toggle call stack",
     },
     {
       "<leader>de",

@@ -183,6 +183,23 @@ Neovim's default keymaps, active when a language server is attached.
 | `]d` / `[d` | n | Next / previous diagnostic, and open its message |
 | `<C-w>d` | n | Show the diagnostic message under the cursor |
 
+## Debug
+
+Debugging works in Python files. Set a breakpoint, start with `<leader>dc`, then step or continue. The script runs in a terminal split below. In the variables window, `<CR>` expands an entry. A `○` in the sign column marks a breakpoint the debugger couldn't set. [`nvim-dap-python.lua`](../lua/plugins/debug/nvim-dap-python.lua) explains which Python runs the script.
+
+| Keys | Mode | Action |
+| --- | --- | --- |
+| `<leader>db` | n | Toggle breakpoint |
+| `<leader>dc` | n | Start debugging the file, or continue to the next breakpoint |
+| `<leader>dn` | n | Step over |
+| `<leader>di` | n | Step into |
+| `<leader>do` | n | Step out |
+| `<leader>dt` | n | Stop debugging |
+| `<leader>dv` | n | Toggle the variables window |
+| `<leader>de` | n | Evaluate the expression under the cursor |
+| `<leader>de` | x | Evaluate the selection |
+| `<leader>dr` | n | Toggle the debug console, for typing expressions |
+
 ## Completion
 
 | Keys | Mode | Action |

@@ -12,7 +12,7 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
 - A clipboard provider: wl-clipboard on Wayland, xclip or xsel on X11
 - curl or wget, unzip, tar and gzip, which Mason uses to download and unpack tools
 - Node.js with npm, for the Bash, JSON, YAML, HTML, CSS and TypeScript servers and Prettier
-- Python 3 with the `venv` module, for basedpyright
+- Python 3 with the `venv` module, for basedpyright and debugpy
 
 ## Install
 
@@ -35,14 +35,14 @@ A personal Neovim configuration built on [lazy.nvim](https://github.com/folke/la
    nvim
    ```
 
-   The first start installs lazy.nvim and every plugin. Language servers, formatters, linters and treesitter parsers then install in the background.
+   The first start installs lazy.nvim and every plugin. Language servers, formatters, linters, debuggers and treesitter parsers then install in the background.
 
 4. When the installs finish, restart Neovim and run `:checkhealth` to find anything missing. `:checkhealth mason` shows tool-install problems.
 
 ## Update
 
 - `:Lazy update` updates plugins and writes the new commits to `lazy-lock.json`. Commit that file to pin the same versions on every machine.
-- `:MasonToolsUpdate` updates language servers, formatters and linters.
+- `:MasonToolsUpdate` updates language servers, formatters, linters and debuggers.
 
 ## Add a plugin
 

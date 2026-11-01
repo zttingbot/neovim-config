@@ -30,14 +30,14 @@ return {
     -- `lua/config/tools.lua`, under `formatters`, or under `servers` when the
     -- tool also runs as a language server.
     formatters_by_ft = {
-      -- `lua`: stylua reads `stylua.toml` at the config root.
+      -- StyLua reads `stylua.toml` at the config root.
       lua = { "stylua" },
-      -- `python`: ruff reads `ruff.toml` or `pyproject.toml` (`[tool.ruff]`)
-      -- from the project.
+      -- Ruff reads `ruff.toml` or `pyproject.toml` (`[tool.ruff]`) from the
+      -- project.
       python = { "ruff_format" },
-      -- `sh`: shfmt follows the project's `.editorconfig`; without one, conform
-      -- passes it the buffer's 'shiftwidth'. Bash scripts get the "sh"
-      -- filetype too, so this entry covers them.
+      -- shfmt follows the project's `.editorconfig`; without one, conform
+      -- passes it the buffer's 'shiftwidth'. Bash scripts get the "sh" filetype
+      -- too, so this entry covers them.
       sh = { "shfmt" },
       -- Web and data formats: prettier in a project with a Prettier config
       -- (see `formatters` below), the language server everywhere else.
@@ -55,17 +55,17 @@ return {
       yaml = { "prettier" },
     },
     formatters = {
-      -- `prettier`: only runs inside a project with a Prettier config
-      -- (`.prettierrc`, `prettier.config.js`, ... or a "prettier" key in
-      -- `package.json`). Elsewhere it counts as unavailable, so `lsp_format`
-      -- below falls back to the language server. It runs the project's own
-      -- prettier from `node_modules` when installed, matching its CI.
+      -- Only runs inside a project with a Prettier config (`.prettierrc`,
+      -- `prettier.config.js`, ... or a "prettier" key in `package.json`).
+      -- Elsewhere it counts as unavailable, so `lsp_format` below falls back to
+      -- the language server. It runs the project's own prettier from
+      -- `node_modules` when installed, matching its CI.
       prettier = { require_cwd = true },
     },
     default_format_opts = {
-      -- `lsp_format`: when no formatter is listed for the filetype, ask the
-      -- language server instead. Not every server can format; `:ConformInfo`
-      -- shows what applies to the current buffer.
+      -- When no formatter is listed for the filetype, ask the language server
+      -- instead. Not every server can format; `:ConformInfo` shows what applies
+      -- to the current buffer.
       lsp_format = "fallback",
     },
   },

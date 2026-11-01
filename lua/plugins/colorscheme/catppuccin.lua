@@ -19,7 +19,7 @@ return {
   lazy = false,
   priority = 1000,
   opts = {
-    -- `flavour`: "latte" (light), "frappe", "macchiato" or "mocha" (darkest).
+    -- "latte" (light), "frappe", "macchiato" or "mocha" (darkest).
     flavour = "mocha",
     -- Leaves the editor and statusline background unpainted, so the
     -- terminal's translucent, blurred background shows through. Floating

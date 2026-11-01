@@ -19,7 +19,7 @@ return {
   -- is when there is something to save, or on the first keymap below.
   event = { "BufReadPre", "BufNewFile" },
   keys = {
-    -- `<leader>qs`: reopen the files and splits saved for this directory.
+    -- Reopen the files and splits saved for this directory.
     {
       "<leader>qs",
       function()
@@ -34,8 +34,7 @@ return {
       end,
       desc = "Select session",
     },
-    -- `<leader>ql`: restore the session saved most recently, whatever its
-    -- directory.
+    -- Restore the session saved most recently, whatever its directory.
     {
       "<leader>ql",
       function()
@@ -43,9 +42,9 @@ return {
       end,
       desc = "Restore last session",
     },
-    -- `<leader>qd`: don't save a session when this Neovim exits, e.g. after
-    -- opening files that don't belong to the project. The session saved
-    -- before stays as it is.
+    -- Don't save a session when this Neovim exits, e.g. after opening files
+    -- that don't belong to the project. The session saved before stays as it
+    -- is.
     {
       "<leader>qd",
       function()

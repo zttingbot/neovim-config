@@ -43,11 +43,8 @@ return {
   opts = {
     -- `mux.backend`: v3 neither detects nor ships one. Without it, the keys
     -- stop at Neovim's edge and tmux never learns that this pane runs Neovim.
-    mux = {
-      backend = "smart-splits-backend-tmux",
-      -- Running outside tmux is normal: the keys just stay within Neovim, so
-      -- there is nothing to warn about at every startup.
-      warn_if_unusable = false,
-    },
+    -- Outside tmux that is the right behavior, and setting none there avoids the
+    -- plugin's warning that no backend was detected.
+    mux = { backend = vim.env.TMUX and "smart-splits-backend-tmux" },
   },
 }

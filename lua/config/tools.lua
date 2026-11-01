@@ -1,4 +1,4 @@
----Language servers, formatters and linters to install, no plugin dependencies.
+---Language servers, formatters, linters and debuggers to install, no plugin dependencies.
 ---
 ---Plain data, read by two plugin specs:
 ---`lua/plugins/lsp/mason-tool-installer.lua` installs every entry, and
@@ -48,8 +48,16 @@ local LINTERS = {
   "shellcheck", -- shell scripts, through bashls
 }
 
+---Debuggers that a spec in `lua/plugins/debug/` registers with nvim-dap. Adding
+---an entry only installs it. Entries are mason package names, as `:Mason` shows
+---them.
+local DEBUGGERS = {
+  "debugpy", -- Python
+}
+
 return {
   servers = SERVERS,
   formatters = FORMATTERS,
   linters = LINTERS,
+  debuggers = DEBUGGERS,
 }

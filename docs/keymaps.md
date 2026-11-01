@@ -185,7 +185,7 @@ Neovim's default keymaps, active when a language server is attached.
 
 ## Debug
 
-Debugging works in Python files. Set a breakpoint, start with `<leader>dc`, then step or continue. The script runs in a terminal split below. In the variables window, `<CR>` expands an entry. A `○` in the sign column marks a breakpoint the debugger couldn't set. [Debugging](architecture.md#debugging) explains which Python runs the script.
+Debugging works in Python files. Set a breakpoint, start with `<leader>dc`, then step or continue. The script runs in a terminal split below. In the variables window, `<CR>` expands an entry. A `○` in the sign column marks a breakpoint the debugger couldn't set. [`nvim-dap-python.lua`](../lua/plugins/debug/nvim-dap-python.lua) explains which Python runs the script.
 
 | Keys | Mode | Action |
 | --- | --- | --- |

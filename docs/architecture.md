@@ -1,6 +1,6 @@
 # Architecture
 
-This page shows how the config fits together: what runs at startup, how plugins load, how the LSP, Treesitter and formatting pipelines work, and where to make common changes. For the details of a single option or plugin, read the header comment of the file it lives in.
+This page shows how the config fits together: what runs at startup, how plugins load, how the LSP, Treesitter, formatting and debugging pipelines work, and where to make common changes. For the details of a single option or plugin, read the header comment of the file it lives in.
 
 ## Overview
 
@@ -15,12 +15,13 @@ flowchart TD
   specs --> ts[Treesitter] --> tsout[highlight, folds, indent]
   specs --> lsp[LSP pipeline] --> client[client attaches]
   specs --> fmt[Formatting] --> conform[formatter or LSP]
+  specs --> dbg[Debugging] --> session[debug session]
   after["after/lsp/*.lua"] -. overrides defaults .-> lsp
 ```
 
 [`init.lua`](../init.lua) requires the `config/` modules in the order shown. Options run first so plugins see the leader keys. Apart from `lazy.lua`, which bootstraps lazy.nvim, nothing in `lua/config/` depends on a plugin, so the editor still works if a plugin fails to load. [`tools.lua`](../lua/config/tools.lua) isn't in the chain: the LSP specs `require` it.
 
-The LSP pipeline, Treesitter and Formatting nodes each have their own section below.
+The LSP pipeline, Treesitter, Formatting and Debugging nodes each have their own section below.
 
 ## Directory layout
 
@@ -29,7 +30,7 @@ The LSP pipeline, Treesitter and Formatting nodes each have their own section be
 ├── init.lua                  entry point: requires the lua/config/ modules in order
 ├── lua/
 │   ├── config/               editor setup that doesn't depend on any plugin (except lazy.lua)
-│   │   └── tools.lua         servers, formatters and linters to install
+│   │   └── tools.lua         servers, formatters, linters and debuggers to install
 │   └── plugins/
 │       └── <category>/       plugins grouped by what they do
 │           ├── init.lua      empty spec; its header says what belongs here
@@ -69,7 +70,7 @@ flowchart LR
   found -- no --> noserver[no server]
 ```
 
-- [`lspconfig.lua`](../lua/plugins/lsp/lspconfig.lua) enables at startup, so a file opened with `nvim file` gets its server. [mason-tool-installer](../lua/plugins/lsp/mason-tool-installer.lua) installs later, along with the formatters and linters. On a first start, buffers opened before their server is installed have no client until you reopen them with `:e`.
+- [`lspconfig.lua`](../lua/plugins/lsp/lspconfig.lua) enables at startup, so a file opened with `nvim file` gets its server. [mason-tool-installer](../lua/plugins/lsp/mason-tool-installer.lua) installs later, along with the formatters, linters and debuggers. On a first start, buffers opened before their server is installed have no client until you reopen them with `:e`.
 - Entries are lspconfig names: `lua_ls`, not `lua-language-server` (`:help lspconfig-all`). A server installed from `:Mason` but missing from the list is not enabled.
 - Once a client attaches, Neovim's [default LSP keymaps](keymaps.md#lsp) apply.
 
@@ -112,6 +113,24 @@ local FORMATTERS = {
 }
 ```
 
+## Debugging
+
+A debugger starts on `<leader>dc` in a buffer of its filetype, if its binary is installed:
+
+```mermaid
+flowchart LR
+  list["debuggers in<br/>config/tools.lua"] -- after the first screen --> install["mason installs<br/>missing debuggers"]
+  ft[buffer FileType] --> spec["spec in plugins/debug/<br/>registers its debugger"] --> key[start key] --> found{"binary on<br/>$PATH?"}
+  install -. adds binary .-> found
+  found -- yes --> session[debug session]
+  found -- no --> nosession[no session]
+```
+
+- [nvim-dap](../lua/plugins/debug/nvim-dap.lua) holds the [keys](keymaps.md#debug) and knows no language. Each debugger has its own spec, which loads with the first buffer of its filetype.
+- Entries in `debuggers` are mason package names: `debugpy`. Adding one only installs it; the spec makes it usable.
+
+Check with `:checkhealth dap`.
+
 ## Common changes
 
 Restart Neovim after each change. lazy.nvim, mason and nvim-treesitter install anything new in the background.
@@ -125,6 +144,7 @@ Restart Neovim after each change. lazy.nvim, mason and nvim-treesitter install a
 | [Add a formatter](#add-a-formatter) | `lua/plugins/coding/conform.lua`, `lua/config/tools.lua` | `:ConformInfo` |
 | [Add a linter](#add-a-linter) | `linters` and `servers` in `lua/config/tools.lua` | Its warnings (`]d`) |
 | [Add a treesitter parser](#treesitter) | `PARSERS` in `lua/plugins/treesitter/nvim-treesitter.lua` | `:checkhealth nvim-treesitter` |
+| [Add a debugger](#debugging) | `lua/plugins/debug/<plugin>.lua`, `debuggers` in `lua/config/tools.lua` | `:checkhealth dap` |
 
 An override returns only the keys to change, as [`after/lsp/ruff.lua`](../after/lsp/ruff.lua) does.
 

@@ -21,6 +21,12 @@ return {
   opts = {
     -- `flavour`: "latte" (light), "frappe", "macchiato" or "mocha" (darkest).
     flavour = "mocha",
+    -- Leaves the editor and statusline background unpainted, so the
+    -- terminal's translucent, blurred background shows through. Floating
+    -- windows (pickers, hover docs) keep a solid fill, since
+    -- `float.transparent` stays off, so they stay readable over the code
+    -- beneath them.
+    transparent_background = true,
     -- Off: detecting the installed plugins at every startup calls
     -- `vim.pack.get()`, which creates an empty `site/pack/core/opt` that
     -- `:checkhealth` then warns about. The integrations are listed below
@@ -32,6 +38,7 @@ return {
     -- default options.
     integrations = {
       blink_cmp = true,
+      dap = true,
       fzf = true,
       gitsigns = true,
       mason = true,

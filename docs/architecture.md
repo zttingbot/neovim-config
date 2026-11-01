@@ -115,19 +115,20 @@ local FORMATTERS = {
 
 ## Debugging
 
-A debugger starts on `<leader>dc` in a buffer of its filetype, if its binary is installed:
+A debugger starts on `<leader>dc` in a buffer of its filetype, or on a language's own key such as `<leader>dm` in any buffer, if its binary is installed:
 
 ```mermaid
 flowchart LR
   list["debuggers in<br/>config/tools.lua"] -- after the first screen --> install["mason installs<br/>missing debuggers"]
-  ft[buffer FileType] --> spec["spec in plugins/debug/<br/>registers its debugger"] --> key[start key] --> found{"binary on<br/>$PATH?"}
+  ft["buffer FileType<br/>or language key"] --> spec["spec in plugins/debug/<br/>registers its debugger"] --> key[start key] --> found{"binary on<br/>$PATH?"}
   install -. adds binary .-> found
   found -- yes --> session[debug session]
   found -- no --> nosession[no session]
 ```
 
-- [nvim-dap](../lua/plugins/debug/nvim-dap.lua) holds the [keys](keymaps.md#debug) and knows no language. Each debugger has its own spec, which loads with the first buffer of its filetype.
+- [nvim-dap](../lua/plugins/debug/nvim-dap.lua) holds the [keys](keymaps.md#debug) shared by all languages. Each debugger has its own spec, which holds its language's keys and loads with the first buffer of its filetype or on one of those keys.
 - Entries in `debuggers` are mason package names: `debugpy`. Adding one only installs it; the spec makes it usable.
+- This config holds nothing about any one project. A project gives its program settings through a `.env` file in the current directory.
 
 Check with `:checkhealth dap`.
 
